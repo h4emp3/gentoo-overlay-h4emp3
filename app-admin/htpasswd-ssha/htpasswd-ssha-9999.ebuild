@@ -16,8 +16,8 @@ HOMEPAGE="https://github.com/DrGkill/htpasswd-ssha"
 LICENSE="GPLv3"
 SLOT="0"
 
-RDEPEND="virtual/perl-Digest-SHA
-	virtual/perl-MIME-Base64
+RDEPEND="virtual/perl-MIME-Base64
+	dev-perl/Digest-SHA1
 	dev-perl/TermReadKey"
 
 src_install(){
