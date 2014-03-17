@@ -24,8 +24,10 @@ src_unpack() {
 src_install() {
 	insinto /usr/share/cacert-certificates || die
 	doins "${FILESDIR}"/root.crt "${FILESDIR}"/class3.crt || die
-	dosym /usr/share/cacert-certificates/root.crt /etc/ssl/certs/cacert_class1.crt
-	dosym /usr/share/cacert-certificates/class3.crt /etc/ssl/certs/cacert_class3.crt
+	dosym /usr/share/cacert-certificates/root.crt \
+		/etc/ssl/certs/cacert_class1.pem
+	dosym /usr/share/cacert-certificates/class3.crt \
+		/etc/ssl/certs/cacert_class3.pem
 }
 
 pkg_postinst() {
