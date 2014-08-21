@@ -1,0 +1,33 @@
+--- app/mailers/notify.rb.old	2014-08-21 04:29:19.465297038 +0200
++++ app/mailers/notify.rb	2014-08-21 04:29:43.937297036 +0200
+@@ -18,7 +18,7 @@
+   default_url_options[:script_name] = Gitlab.config.gitlab.relative_url_root
+ 
+   default from: Proc.new { default_sender_address.format }
+-  default reply_to: "noreply@#{Gitlab.config.gitlab.host}"
++  default reply_to: Gitlab.config.gitlab.email_reply_to
+ 
+   # Just send email with 2 seconds delay
+   def self.delay
+--- config/gitlab.yml.example.old	2014-08-21 04:30:31.781377002 +0200
++++ config/gitlab.yml.example	2014-08-21 04:31:22.833377002 +0200
+@@ -35,6 +35,9 @@
+     # Email address used in the "From" field in mails sent by GitLab
+     email_from: example@example.com
+ 
++    # Email address used in the "Reply-To" field in mails send by GitLab (default: no-reply@<host>)
++    email_reply_to: no-reply@example.com
++
+     # Email server smtp settings are in [a separate file](initializers/smtp_settings.rb.sample).
+ 
+     ## User settings
+--- config/initializers/1_settings.rb.old	2014-08-21 04:31:48.461377002 +0200
++++ config/initializers/1_settings.rb	2014-08-21 04:32:07.093377002 +0200
+@@ -79,6 +79,7 @@
+ Settings.gitlab['relative_url_root'] ||= ENV['RAILS_RELATIVE_URL_ROOT'] || ''
+ Settings.gitlab['protocol']   ||= Settings.gitlab.https ? "https" : "http"
+ Settings.gitlab['email_from'] ||= "gitlab@#{Settings.gitlab.host}"
++Settings.gitlab['email_reply_to'] ||= "no-reply@#{Settings.gitlab.host}"
+ Settings.gitlab['url']        ||= Settings.send(:build_gitlab_url)
+ Settings.gitlab['user']       ||= 'git'
+ Settings.gitlab['user_home']  ||= begin

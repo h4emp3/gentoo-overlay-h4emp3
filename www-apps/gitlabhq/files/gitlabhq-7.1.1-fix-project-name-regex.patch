@@ -1,0 +1,16 @@
+--- lib/gitlab/regex.rb.old	2014-08-21 04:18:59.430878998 +0200
++++ lib/gitlab/regex.rb	2014-08-21 04:23:29.713297038 +0200
+@@ -11,11 +11,11 @@
+     end
+ 
+     def project_name_regex
+-      /\A[a-zA-Z0-9_][a-zA-Z0-9_\-\. ]*\z/
++      /\A[\p{Word}_][\p{Word}_\-:\. ]*\z/
+     end
+ 
+     def project_regex_message
+-      "can contain only letters, digits, '_', '-' and '.' and space. " \
++      "can contain only letters, digits, '_', '-', '.', ':' and space. " \
+       "It must start with letter, digit or '_'."
+     end
+ 
