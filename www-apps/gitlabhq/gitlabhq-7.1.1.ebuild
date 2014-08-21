@@ -23,7 +23,7 @@ SRC_URI="https://github.com/gitlabhq/gitlabhq/archive/v${PV}.tar.gz -> ${P}.tar.
 RESTRICT="mirror"
 
 LICENSE="MIT"
-SLOT="6"
+SLOT="7"
 KEYWORDS="amd64 x86"
 IUSE="mysql +postgres +unicorn"
 
