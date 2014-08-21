@@ -74,7 +74,8 @@ RUBY_PATCHES=(
 )
 
 MY_NAME="gitlab"
-MY_USER="git"    # should be same as in gitlab-shell
+MY_USER="gitlab"    # should be same as in gitlab-shell
+MY_REPOS="/var/lib/gitlab/repositories"
 
 DEST_DIR="/opt/${MY_NAME}-${SLOT}"
 CONF_DIR="/etc/${MY_NAME}-${SLOT}"
@@ -89,12 +90,12 @@ all_ruby_prepare() {
 
 	# fix paths
 	local satellites_path="${TEMP_DIR}/repo_satellites"
-	local repos_path=/var/lib/git/repositories
 	local shell_path=/usr/share/gitlab-shell
 	sed -i -E \
+		-e "/gitlab:$/,/\w:$/ s|(\s*)#?\s*(user:\s).*|\1\2${MY_USER}|" \
 		-e "/satellites:$/,/\w:$/   s|(\s*path:\s).*|\1${satellites_path}/|" \
 		-e "/gitlab_shell:$/,/\w:$/ s|(\s*path:\s).*|\1${shell_path}/|" \
-		-e "/gitlab_shell:$/,/\w:$/ s|(\s*repos_path:\s).*|\1${repos_path}/|" \
+		-e "/gitlab_shell:$/,/\w:$/ s|(\s*repos_path:\s).*|\1${MY_REPOS}/|" \
 		-e "/gitlab_shell:$/,/\w:$/ s|(\s*hooks_path:\s).*|\1${shell_path}/hooks/|" \
 		config/gitlab.yml.example || die "failed to filter gitlab.yml.example"
 
