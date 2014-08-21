@@ -45,7 +45,7 @@ GEMS_DEPEND="
 	postgres? ( dev-db/postgresql-base )
 	mysql? ( virtual/mysql )"
 DEPEND="${GEMS_DEPEND}
-	>=dev-vcs/gitlab-shell-1.8
+	>=dev-vcs/gitlab-shell-1.9.7
 	dev-vcs/git"
 RDEPEND="${DEPEND}
 	dev-db/redis
