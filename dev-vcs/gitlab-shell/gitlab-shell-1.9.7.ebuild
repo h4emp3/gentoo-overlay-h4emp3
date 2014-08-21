@@ -32,9 +32,9 @@ RUBY_PATCHES=(
 	"${P}-redis-db-option.patch"
 )
 
-GIT_USER="git"
+GIT_USER="gitlab"
 DEST_DIR="/usr/share/${PN}"
-DATA_DIR="/var/lib/git"
+DATA_DIR="/var/lib/gitlab"
 LOGS_DIR="/var/log/gitlab"
 CONF_FILE="/etc/gitlab-shell.yml"
 
