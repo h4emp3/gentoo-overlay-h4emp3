@@ -12,21 +12,19 @@ SLOT="0"
 KEYWORDS="*"
 IUSE=""
 
-DEPEND=""
-RDEPEND="${DEPEND}
-	app-misc/ca-certificates
-	dev-libs/openssl"
+DEPEND="app-misc/ca-certificates[-cacert]"
+RDEPEND="${DEPEND} dev-libs/openssl"
 
 src_unpack() {
 	mkdir -p "${S}"
 }
 
 src_install() {
-	insinto /usr/share/cacert-certificates || die
+	insinto /usr/share/ca-certificates/cacert.org || die
 	doins "${FILESDIR}"/root.crt "${FILESDIR}"/class3.crt || die
-	dosym /usr/share/cacert-certificates/root.crt \
+	dosym /usr/share/ca-certificates/cacert.org/root.crt \
 		/etc/ssl/certs/cacert_class1.pem
-	dosym /usr/share/cacert-certificates/class3.crt \
+	dosym /usr/share/ca-certificates/cacert.org/class3.crt \
 		/etc/ssl/certs/cacert_class3.pem
 }
 
