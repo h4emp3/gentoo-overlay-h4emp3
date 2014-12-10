@@ -18,7 +18,7 @@ MOZ_PV="${MOZ_PV/_rc/rc}" # Handle rc for SRC_URI
 MOZ_PN="${PN/-bin}"
 MOZ_P="${MOZ_PN}-${MOZ_PV}"
 
-ALPHA_RELEASE="2014-11-10-00-40-02"
+ALPHA_RELEASE="2014-12-09-00-40-01"
 
 # Upstream ftp release URI that's used by mozlinguas.eclass
 MOZ_FTP_URI="ftp://ftp.mozilla.org/pub/mozilla.org/${MOZ_PN}"
@@ -26,7 +26,6 @@ MOZ_FTP_URI="ftp://ftp.mozilla.org/pub/mozilla.org/${MOZ_PN}"
 inherit eutils multilib pax-utils fdo-mime gnome2-utils mozlinguas nsplugins
 
 DESCRIPTION="Firefox Web Browser"
-MOZ_FTP_URI="ftp://ftp.mozilla.org/pub/mozilla.org/${MOZ_PN}"
 
 if [[ ${PV} =~ alpha ]]; then
 	SRC_URI="${SRC_URI}
