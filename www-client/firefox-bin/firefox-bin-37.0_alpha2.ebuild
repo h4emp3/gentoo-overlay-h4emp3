@@ -18,7 +18,7 @@ MOZ_PV="${MOZ_PV/_rc/rc}" # Handle rc for SRC_URI
 MOZ_PN="${PN/-bin}"
 MOZ_P="${MOZ_PN}-${MOZ_PV}"
 
-ALPHA_RELEASE="2014-12-09-00-40-01"
+ALPHA_RELEASE="2015-01-13-00-40-07"
 
 # Upstream ftp release URI that's used by mozlinguas.eclass
 MOZ_FTP_URI="ftp://ftp.mozilla.org/pub/mozilla.org/${MOZ_PN}"
