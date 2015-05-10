@@ -1,0 +1,9 @@
+# ChangeLog for dev-python/pip
+# Copyright 1999-2015 Gentoo Foundation; Distributed under the GPL v2
+# $Header: $
+
+*+monitoring-plugins-0.0.1 (10 May 2015)
+
+  10 May 2015; Paul Goller <hmp@h4emp3.net>
+  +monitoring-plugins-0.0.1.ebuild:
+  initial ebuild work.
