@@ -16,7 +16,8 @@ KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sparc ~x86 ~amd64-linux ~x
 SLOT="0"
 
 RDEPEND="dev-python/setuptools[${PYTHON_USEDEP}]"
-DEPEND="${RDEPEND}"
+DEPEND="${RDEPEND}
+		>=dev-python/monitoring-plugins-common-0.0.1"
 
 python_install_all() {
 	local DOCS=( LICENSE *.rst )
