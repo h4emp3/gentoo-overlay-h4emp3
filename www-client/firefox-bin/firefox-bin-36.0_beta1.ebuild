@@ -1,15 +1,17 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/firefox-bin/firefox-bin-33.0.ebuild,v 1.3 2014/11/02 10:26:31 swift Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/firefox-bin/firefox-bin-37.0.1.ebuild,v 1.1 2015/04/06 06:17:35 polynomial-c Exp $
 
 EAPI="5"
 
 # Can be updated using scripts/get_langs.sh from mozilla overlay
-MOZ_LANGS=(af ar as ast be bg bn-BD bn-IN br bs ca cs csb cy da de el en
+# Not officially supported as of yet
+# csb
+MOZ_LANGS=(af ar as ast be bg bn-BD bn-IN br bs ca cs cy da de el en
 en-GB en-US en-ZA eo es-AR es-CL es-ES es-MX et eu fa fi fr fy-NL ga-IE gd gl
-gu-IN he hi-IN hr hu hy-AM id is it ja kk kn ko ku lt lv mai mk ml mr nb-NO
+gu-IN he hi-IN hr hu hy-AM id is it ja kk kn ko lt lv mai mk ml mr nb-NO
 nl nn-NO or pa-IN pl pt-BR pt-PT rm ro ru si sk sl son sq sr sv-SE ta
-te tr uk vi zh-CN zh-TW zu)
+te tr uk vi zh-CN zh-TW)
 
 # Convert the ebuild version to the upstream mozilla version, used by mozlinguas
 MOZ_PV="${PV/_alpha/a}" # Handle alpha for SRC_URI
@@ -18,7 +20,7 @@ MOZ_PV="${MOZ_PV/_rc/rc}" # Handle rc for SRC_URI
 MOZ_PN="${PN/-bin}"
 MOZ_P="${MOZ_PN}-${MOZ_PV}"
 
-ALPHA_RELEASE="2015-01-13-00-40-07"
+ALPHA_RELEASE="2015-05-10-00-40-03"
 
 # Upstream ftp release URI that's used by mozlinguas.eclass
 MOZ_FTP_URI="ftp://ftp.mozilla.org/pub/mozilla.org/${MOZ_PN}"
