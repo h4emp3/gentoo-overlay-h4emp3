@@ -1,1 +1,1 @@
-firefox-bin-36.0_beta1.ebuild
+firefox-bin-38.0_beta9.ebuild
