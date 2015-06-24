@@ -1,0 +1,1 @@
+firefox-bin-39.0_beta7.ebuild

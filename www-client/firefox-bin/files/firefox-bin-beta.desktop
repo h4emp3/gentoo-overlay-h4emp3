@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Mozilla Firefox Beta (bin)
 Comment=Mozilla Firefox Web Browser
-Exec=/usr/bin/firefox-bin-beta %U
+Exec=/usr/bin/firefox-bin-beta %u
 Icon=firefox-bin-beta
 Terminal=false
 Type=Application
