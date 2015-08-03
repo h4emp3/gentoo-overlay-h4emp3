@@ -20,7 +20,7 @@ MOZ_PV="${MOZ_PV/_rc/rc}" # Handle rc for SRC_URI
 MOZ_PN="${PN/-bin}"
 MOZ_P="${MOZ_PN}-${MOZ_PV}"
 
-ALPHA_RELEASE="2015-06-24-00-40-04"
+ALPHA_RELEASE="2015-08-02-00-40-05"
 
 # Upstream ftp release URI that's used by mozlinguas.eclass
 # We don't use the http mirror because it deletes old tarballs.

@@ -1,0 +1,1 @@
+firefox-bin-40.0_beta9.ebuild

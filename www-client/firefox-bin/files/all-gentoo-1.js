@@ -8,6 +8,4 @@ defaultPref("spellchecker.dictionary_path", "/usr/share/myspell");
 defaultPref("browser.shell.checkDefaultBrowser",  false); 
 // Preferences that should be reset every session
 pref("browser.EULA.override",              true); 
-// CVE-2015-4000 - prevent Logjam attack vector
-lockPref("security.ssl3.dhe_rsa_aes_128_sha", false);
-lockPref("security.ssl3.dhe_rsa_aes_256_sha", false);
+
