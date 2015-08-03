@@ -1,1 +1,1 @@
-firefox-bin-40.0_beta9.ebuild
+firefox-bin-39.0.ebuild

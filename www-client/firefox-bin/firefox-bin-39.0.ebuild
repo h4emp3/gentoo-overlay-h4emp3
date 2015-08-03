@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/firefox-bin/firefox-bin-39.0.ebuild,v 1.2 2015/07/16 19:37:51 axs Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/firefox-bin/firefox-bin-38.0.1-r1.ebuild,v 1.2 2015/05/31 15:04:50 axs Exp $
 
 EAPI="5"
 
@@ -14,31 +14,49 @@ nl nn-NO or pa-IN pl pt-BR pt-PT rm ro ru si sk sl son sq sr sv-SE ta
 te tr uk vi zh-CN zh-TW)
 
 # Convert the ebuild version to the upstream mozilla version, used by mozlinguas
-MOZ_PV="${PV/_beta/b}" # Handle beta for SRC_URI
+MOZ_PV="${PV/_alpha/a}" # Handle alpha for SRC_URI
+MOZ_PV="${MOZ_PV/_beta/b}" # Handle beta for SRC_URI
 MOZ_PV="${MOZ_PV/_rc/rc}" # Handle rc for SRC_URI
 MOZ_PN="${PN/-bin}"
 MOZ_P="${MOZ_PN}-${MOZ_PV}"
 
+ALPHA_RELEASE="2015-08-02-00-40-05"
+
 # Upstream ftp release URI that's used by mozlinguas.eclass
-# We used to not use the http mirror because it deletes old tarballs.
-MOZ_FTP_URI="ftp://ftp.mozilla.org/pub/mozilla.org/${MOZ_PN}/releases/"
-MOZ_HTTP_URI="http://ftp.mozilla.org/pub/mozilla.org/${MOZ_PN}/releases/"
+# We don't use the http mirror because it deletes old tarballs.
+MOZ_FTP_URI="ftp://ftp.mozilla.org/pub/mozilla.org/${MOZ_PN}"
 
 inherit eutils multilib pax-utils fdo-mime gnome2-utils mozlinguas nsplugins
 
 DESCRIPTION="Firefox Web Browser"
-SRC_URI="${SRC_URI}
-	amd64? (
-		${MOZ_FTP_URI%/}/${MOZ_PV}/linux-x86_64/en-US/${MOZ_P}.tar.bz2 -> ${PN}_x86_64-${PV}.tar.bz2
-		${MOZ_HTTP_URI%/}/${MOZ_PV}/linux-x86_64/en-US/${MOZ_P}.tar.bz2 -> ${PN}_x86_64-${PV}.tar.bz2 )
-	x86? (
-		${MOZ_FTP_URI%/}/${MOZ_PV}/linux-i686/en-US/${MOZ_P}.tar.bz2 -> ${PN}_i686-${PV}.tar.bz2
-		${MOZ_HTTP_URI%/}/${MOZ_PV}/linux-i686/en-US/${MOZ_P}.tar.bz2 -> ${PN}_i686-${PV}.tar.bz2 )"
+
+if [[ ${PV} =~ alpha ]]; then
+	PN_FULL="${PN}-aurora"
+	MOZ_PN_FULL="${MOZ_PN}-aurora"
+	SLOT="aurora"
+	SRC_URI="${SRC_URI}
+		amd64? (
+		${MOZ_FTP_URI}/nightly/${ALPHA_RELEASE}-mozilla-aurora/${MOZ_P}.en-US.linux-x86_64.tar.bz2 -> ${PN}_x86_64-${PV}.tar.bz2 )
+		x86? ( ${MOZ_FTP_URI}/nightly/${ALPHA_RELEASE}-mozilla-aurora/${MOZ_P}.en-US.linux-i686.tar.bz2 -> ${PN}_i686-${PV}.tar.bz2	)"
+else
+	if [[ ${PV} =~ beta ]]; then
+		PN_FULL="${PN}-beta"
+		MOZ_PN_FULL="${MOZ_PN}-beta"
+		SLOT="beta"
+	else
+		PN_FULL="${PN}"
+		MOZ_PN_FULL="${MOZ_PN}"
+		SLOT="stable"
+	fi
+	SRC_URI="${SRC_URI}
+		amd64? ( ${MOZ_FTP_URI}/releases/${MOZ_PV}/linux-x86_64/en-US/${MOZ_P}.tar.bz2 -> ${PN}_x86_64-${PV}.tar.bz2 )
+		x86? ( ${MOZ_FTP_URI}/releases/${MOZ_PV}/linux-i686/en-US/${MOZ_P}.tar.bz2 -> ${PN}_i686-${PV}.tar.bz2 )"
+fi
+
 HOMEPAGE="http://www.mozilla.com/firefox"
 RESTRICT="strip mirror"
 
 KEYWORDS="-* ~amd64 ~x86"
-SLOT="0"
 LICENSE="MPL-2.0 GPL-2 LGPL-2.1"
 IUSE="selinux startup-notification"
 
@@ -66,14 +84,14 @@ RDEPEND="dev-libs/atk
 "
 
 QA_PREBUILT="
-	opt/${MOZ_PN}/*.so
-	opt/${MOZ_PN}/${MOZ_PN}
-	opt/${MOZ_PN}/${PN}
-	opt/${MOZ_PN}/crashreporter
-	opt/${MOZ_PN}/webapprt-stub
-	opt/${MOZ_PN}/plugin-container
-	opt/${MOZ_PN}/mozilla-xremote-client
-	opt/${MOZ_PN}/updater
+	opt/${MOZ_PN_FULL}/*.so
+	opt/${MOZ_PN_FULL}/${MOZ_PN}
+	opt/${MOZ_PN_FULL}/${PN}
+	opt/${MOZ_PN_FULL}/crashreporter
+	opt/${MOZ_PN_FULL}/webapprt-stub
+	opt/${MOZ_PN_FULL}/plugin-container
+	opt/${MOZ_PN_FULL}/mozilla-xremote-client
+	opt/${MOZ_PN_FULL}/updater
 "
 
 S="${WORKDIR}/${MOZ_PN}"
@@ -86,12 +104,12 @@ src_unpack() {
 }
 
 src_install() {
-	declare MOZILLA_FIVE_HOME=/opt/${MOZ_PN}
+	declare MOZILLA_FIVE_HOME=/opt/${MOZ_PN_FULL}
 
 	local size sizes icon_path icon name
 	sizes="16 32 48"
 	icon_path="${S}/browser/chrome/icons/default"
-	icon="${PN}"
+	icon="${PN_FULL}"
 	name="Mozilla Firefox"
 
 	# Install icons and .desktop for menu entry
@@ -100,17 +118,17 @@ src_install() {
 		newins "${icon_path}/default${size}.png" "${icon}.png" || die
 	done
 	# The 128x128 icon has a different name
-	insinto /usr/share/icons/hicolor/128x128/apps
+	insinto "/usr/share/icons/hicolor/128x128/apps"
 	newins "${icon_path}/../../../icons/mozicon128.png" "${icon}.png" || die
 	# Install a 48x48 icon into /usr/share/pixmaps for legacy DEs
-	newicon "${S}"/browser/chrome/icons/default/default48.png ${PN}.png
-	domenu "${FILESDIR}"/${PN}.desktop
+	newicon "${S}"/browser/chrome/icons/default/default48.png ${PN_FULL}.png
+	domenu "${FILESDIR}"/${PN_FULL}.desktop
 	sed -i -e "s:@NAME@:${name}:" -e "s:@ICON@:${icon}:" \
-		"${ED}usr/share/applications/${PN}.desktop" || die
+		"${ED}/usr/share/applications/${PN_FULL}.desktop" || die
 
 	# Add StartupNotify=true bug 237317
 	if use startup-notification; then
-		echo "StartupNotify=true" >> "${ED}"usr/share/applications/${PN}.desktop
+		echo "StartupNotify=true" >> "${ED}"/usr/share/applications/${PN_FULL}.desktop
 	fi
 
 	# Install firefox in /opt
@@ -135,21 +153,21 @@ src_install() {
 			die "sed failed to change locale"
 	fi
 
-	# Create /usr/bin/firefox-bin
+	# Create /usr/bin/firefox-bin(-beta|aurora)
 	dodir /usr/bin/
-	cat <<-EOF >"${ED}"usr/bin/${PN}
+	cat <<-EOF >"${ED}"/usr/bin/${PN_FULL}
 	#!/bin/sh
 	unset LD_PRELOAD
-	LD_LIBRARY_PATH="/opt/firefox/"
+	LD_LIBRARY_PATH="/opt/${MOZ_PN_FULL}/"
 	GTK_PATH=/usr/lib/gtk-2.0/
-	exec /opt/${MOZ_PN}/${MOZ_PN} "\$@"
+	exec /opt/${MOZ_PN_FULL}/${MOZ_PN} "\$@"
 	EOF
-	fperms 0755 /usr/bin/${PN}
+	fperms 0755 /usr/bin/${PN_FULL}
 
 	# revdep-rebuild entry
 	insinto /etc/revdep-rebuild
-	echo "SEARCH_DIRS_MASK=${MOZILLA_FIVE_HOME}" >> ${T}/10${PN}
-	doins "${T}"/10${PN} || die
+	echo "SEARCH_DIRS_MASK=${MOZILLA_FIVE_HOME}" >> ${T}/10${PN_FULL}
+	doins "${T}"/10${PN_FULL} || die
 
 	# Plugins dir
 	share_plugins_dir
