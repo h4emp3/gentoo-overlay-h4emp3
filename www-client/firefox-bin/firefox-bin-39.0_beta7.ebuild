@@ -70,7 +70,7 @@ RDEPEND="dev-libs/atk
 	>=media-libs/freetype-2.4.10
 	>=x11-libs/cairo-1.10[X]
 	x11-libs/gdk-pixbuf
-	>=x11-libs/gtk+-2.14:2
+	>=x11-libs/gtk+-2.18:2
 	x11-libs/libX11
 	x11-libs/libXcomposite
 	x11-libs/libXdamage
@@ -128,19 +128,19 @@ src_install() {
 
 	# Add StartupNotify=true bug 237317
 	if use startup-notification; then
-		echo "StartupNotify=true" >> "${D}"/usr/share/applications/${PN_FULL}.desktop
+		echo "StartupNotify=true" >> "${ED}"/usr/share/applications/${PN_FULL}.desktop
 	fi
 
 	# Install firefox in /opt
 	dodir ${MOZILLA_FIVE_HOME%/*}
-	mv "${S}" "${D}"${MOZILLA_FIVE_HOME} || die
+	mv "${S}" "${ED}"${MOZILLA_FIVE_HOME} || die
 
 	# Fix prefs that make no sense for a system-wide install
 	insinto ${MOZILLA_FIVE_HOME}/defaults/pref/
 	doins "${FILESDIR}"/local-settings.js
 	# Copy preferences file so we can do a simple rename.
-	cp "${FILESDIR}"/all-gentoo-1-cve-2015-4000.js \
-		"${D}"${MOZILLA_FIVE_HOME}/all-gentoo.js || die
+	cp "${FILESDIR}"/all-gentoo-1.js \
+		"${ED}"${MOZILLA_FIVE_HOME}/all-gentoo.js || die
 
 	# Install language packs
 	mozlinguas_src_install
@@ -149,13 +149,13 @@ src_install() {
 	if [[ -n ${LANG} && ${LANG} != "en" ]]; then
 		elog "Setting default locale to ${LANG}"
 		echo "pref(\"general.useragent.locale\", \"${LANG}\");" \
-			>> "${D}${MOZILLA_FIVE_HOME}"/defaults/pref/${PN}-prefs.js || \
+			>> "${ED}${MOZILLA_FIVE_HOME}"/defaults/pref/${PN}-prefs.js || \
 			die "sed failed to change locale"
 	fi
 
 	# Create /usr/bin/firefox-bin(-beta|aurora)
 	dodir /usr/bin/
-	cat <<-EOF >"${D}"/usr/bin/${PN_FULL}
+	cat <<-EOF >"${ED}"/usr/bin/${PN_FULL}
 	#!/bin/sh
 	unset LD_PRELOAD
 	LD_LIBRARY_PATH="/opt/${MOZ_PN_FULL}/"
@@ -173,7 +173,7 @@ src_install() {
 	share_plugins_dir
 
 	# Required in order to use plugins and even run firefox on hardened.
-	pax-mark mr "${ED}"/${MOZILLA_FIVE_HOME}/{firefox,firefox-bin,plugin-container}
+	pax-mark mr "${ED}"${MOZILLA_FIVE_HOME}/{firefox,firefox-bin,plugin-container}
 }
 
 pkg_preinst() {
