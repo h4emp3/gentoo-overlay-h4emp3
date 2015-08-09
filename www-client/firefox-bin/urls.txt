@@ -1,0 +1,9 @@
+
+latest stable:
+https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/latest/linux-x86_64/en-US/
+
+latest beta:
+https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/latest-beta/linux-x86_64/en-US/
+
+latest alpha/aurora:
+https://ftp.mozilla.org/pub/mozilla.org/firefox/nightly/latest-mozilla-aurora/
