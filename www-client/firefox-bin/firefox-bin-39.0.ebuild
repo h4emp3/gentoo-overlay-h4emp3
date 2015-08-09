@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/firefox-bin/firefox-bin-38.0.1-r1.ebuild,v 1.2 2015/05/31 15:04:50 axs Exp $
+# $Header: /var/cvsroot/gentoo-x86/www-client/firefox-bin/firefox-bin-39.0.3.ebuild,v 1.1 2015/08/07 16:41:55 axs Exp $
 
 EAPI="5"
 
@@ -118,17 +118,17 @@ src_install() {
 		newins "${icon_path}/default${size}.png" "${icon}.png" || die
 	done
 	# The 128x128 icon has a different name
-	insinto "/usr/share/icons/hicolor/128x128/apps"
+	insinto /usr/share/icons/hicolor/128x128/apps
 	newins "${icon_path}/../../../icons/mozicon128.png" "${icon}.png" || die
 	# Install a 48x48 icon into /usr/share/pixmaps for legacy DEs
 	newicon "${S}"/browser/chrome/icons/default/default48.png ${PN_FULL}.png
 	domenu "${FILESDIR}"/${PN_FULL}.desktop
 	sed -i -e "s:@NAME@:${name}:" -e "s:@ICON@:${icon}:" \
-		"${ED}/usr/share/applications/${PN_FULL}.desktop" || die
+		"${ED}usr/share/applications/${PN_FULL}.desktop" || die
 
 	# Add StartupNotify=true bug 237317
 	if use startup-notification; then
-		echo "StartupNotify=true" >> "${ED}"/usr/share/applications/${PN_FULL}.desktop
+		echo "StartupNotify=true" >> "${ED}"usr/share/applications/${PN_FULL}.desktop
 	fi
 
 	# Install firefox in /opt
@@ -155,7 +155,7 @@ src_install() {
 
 	# Create /usr/bin/firefox-bin(-beta|aurora)
 	dodir /usr/bin/
-	cat <<-EOF >"${ED}"/usr/bin/${PN_FULL}
+	cat <<-EOF >"${ED}"usr/bin/${PN_FULL}
 	#!/bin/sh
 	unset LD_PRELOAD
 	LD_LIBRARY_PATH="/opt/${MOZ_PN_FULL}/"
