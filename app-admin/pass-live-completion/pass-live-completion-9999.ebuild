@@ -24,7 +24,7 @@ EGIT_REPO_URI="https://code.workwork.net/hmp/${PN}.git"
 if [ "${PV}" = '9999' ]; then
 	EGIT_BRANCH="develop"
 else
-	EGIT_BRANCH="refs/tags/v${PV}"
+	EGIT_COMMIT="${PV}"
 fi
 
 
