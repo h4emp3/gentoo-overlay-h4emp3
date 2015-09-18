@@ -1,1 +1,0 @@
-firefox-bin-39.0.3.ebuild

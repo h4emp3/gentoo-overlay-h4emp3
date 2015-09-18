@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/www-client/firefox-bin/firefox-bin-38.0.1-r1.ebuild,v 1.2 2015/05/31 15:04:50 axs Exp $
+# $Id$
 
 EAPI="5"
 
@@ -20,12 +20,7 @@ MOZ_PV="${MOZ_PV/_rc/rc}" # Handle rc for SRC_URI
 MOZ_PN="${PN/-bin}"
 MOZ_P="${MOZ_PN}-${MOZ_PV}"
 
-ALPHA_RELEASE="2015-08-02-00-40-05"
-
-# Upstream ftp release URI that's used by mozlinguas.eclass
-# We used to not use the http mirror because it deletes old tarballs.
-MOZ_HTTP_URI="http://ftp.mozilla.org/pub/mozilla.org/${MOZ_PN}/releases"
-MOZ_FTP_URI="ftp://ftp.mozilla.org/pub/mozilla.org/${MOZ_PN}/releases"
+MOZ_HTTP_URI="http://archive.mozilla.org/pub/mozilla.org/${MOZ_PN}/releases"
 
 inherit eutils multilib pax-utils fdo-mime gnome2-utils mozlinguas nsplugins
 
@@ -36,14 +31,8 @@ if [[ ${PV} =~ alpha ]]; then
 	PN_FULL="${PN}-aurora"
 	MOZ_PN_FULL="${MOZ_PN}-aurora"
 	SRC_URI="${SRC_URI}
-		amd64? (
-			${MOZ_HTTP_URI%/*}/nightly/${ALPHA_RELEASE}-mozilla-aurora/${MOZ_P}.en-US.linux-x86_64.tar.bz2 -> ${PN}_x86_64-${PV}.tar.bz2
-			${MOZ_FTP_URI%/*}/nightly/${ALPHA_RELEASE}-mozilla-aurora/${MOZ_P}.en-US.linux-x86_64.tar.bz2 -> ${PN}_x86_64-${PV}.tar.bz2
-		)
-		x86? (
-			${MOZ_HTTP_URI%/*}/nightly/${ALPHA_RELEASE}-mozilla-aurora/${MOZ_P}.en-US.linux-i686.tar.bz2 -> ${PN}_i686-${PV}.tar.bz2
-			${MOZ_FTP_URI%/*}/nightly/${ALPHA_RELEASE}-mozilla-aurora/${MOZ_P}.en-US.linux-i686.tar.bz2 -> ${PN}_i686-${PV}.tar.bz2
-		)"
+		amd64? ( ${MOZ_HTTP_URI%/*}/nightly/latest-mozilla-aurora/${MOZ_P}.en-US.linux-x86_64.tar.bz2 -> ${PN}_x86_64-${PV}.tar.bz2 )
+		x86? ( ${MOZ_HTTP_URI%/*}/nightly/latest-mozilla-aurora/${MOZ_P}.en-US.linux-i686.tar.bz2 -> ${PN}_i686-${PV}.tar.bz2 )"
 else
 	if [[ ${PV} =~ beta ]]; then
 		PN_FULL="${PN}-beta"
@@ -55,14 +44,8 @@ else
 		CHANNEL="stable"
 	fi
 	SRC_URI="${SRC_URI}
-		amd64? (
-			${MOZ_HTTP_URI}/${MOZ_PV}/linux-x86_64/en-US/${MOZ_P}.tar.bz2 -> ${PN}_x86_64-${PV}.tar.bz2
-			${MOZ_FTP_URI}/${MOZ_PV}/linux-x86_64/en-US/${MOZ_P}.tar.bz2 -> ${PN}_x86_64-${PV}.tar.bz2
-		)
-		x86? (
-			${MOZ_HTTP_URI}/${MOZ_PV}/linux-i686/en-US/${MOZ_P}.tar.bz2 -> ${PN}_i686-${PV}.tar.bz2
-			${MOZ_FTP_URI}/${MOZ_PV}/linux-i686/en-US/${MOZ_P}.tar.bz2 -> ${PN}_i686-${PV}.tar.bz2
-		)"
+		amd64? ( ${MOZ_HTTP_URI}/${MOZ_PV}/linux-x86_64/en-US/${MOZ_P}.tar.bz2 -> ${PN}_x86_64-${PV}.tar.bz2 )
+		x86? ( ${MOZ_HTTP_URI}/${MOZ_PV}/linux-i686/en-US/${MOZ_P}.tar.bz2 -> ${PN}_i686-${PV}.tar.bz2 )"
 fi
 
 HOMEPAGE="http://www.mozilla.com/firefox"
