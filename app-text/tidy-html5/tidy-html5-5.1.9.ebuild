@@ -16,8 +16,8 @@ SLOT="0"
 KEYWORDS="x86 amd64"
 IUSE="debug doc static-libs"
 
-DEPEND="dev-util/cmake doc? ( app-doc/doxygen )"
-BDEPEND="dev-util/cmake"
+DEPEND=">=dev-util/cmake-2.8.8
+	doc? ( app-doc/doxygen )"
 RDEPEND="!!app-text/htmltidy"
 
 src_configure() {
