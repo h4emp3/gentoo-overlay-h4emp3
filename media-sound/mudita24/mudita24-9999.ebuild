@@ -17,7 +17,7 @@ IUSE="debug static-libs"
 
 DEPEND=">=dev-util/cmake-2.6.2
 	>=x11-libs/gtk+-2.20:2
-	>=media-sound/alsa-tools-1.0.0[ice1712]"
+	>=media-sound/alsa-utils-1.0.0"
 RDEPEND=""
 
 src_configure() {
