@@ -6,13 +6,13 @@ EAPI=5
 
 inherit subversion cmake-utils
 
-DESCRIPTION="Control Panel for Ice1712 Audio Cards"
+DESCRIPTION="Control Panel for Ice1712 Audio Cards (fork of mudita24)"
 HOMEPAGE="https://code.google.com/p/mudita24/"
-ESVN_REPO_URI="http://mudita24.googlecode.com/svn/trunk/mudita24"
+ESVN_REPO_URI="http://${PN}.googlecode.com/svn/trunk/${PN}"
 
-LICENSE="GPLv2"
+LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="x86 amd64"
+KEYWORDS="~x86 ~amd64"
 IUSE="debug static-libs"
 
 DEPEND=">=dev-util/cmake-2.6.2
