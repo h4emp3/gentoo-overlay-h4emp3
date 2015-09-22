@@ -1,32 +1,29 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI=5
 
 inherit git-r3
 
-DESCRIPTION=""
-HOMEPAGE=""
+DESCRIPTION="Fast Minecraft map generator"
+HOMEPAGE="https://github.com/akudeukie/pigmap"
 EGIT_REPO_URI="https://github.com/akudeukie/${PN}"
+EGIT_COMMIT="v${PV}"
 
 LICENSE="GPL-3"
-SLOT="1.8"
-KEYWORDS="~amd64"
+SLOT="0"
+KEYWORDS="amd64"
 IUSE=""
 
 DEPEND="sys-libs/zlib
-	media-libs/libpng
+	media-libs/libpng:0
 	media-libs/libjpeg-turbo"
 RDEPEND="${DEPEND}"
 
-function fetch() {
-	git-r3_fetch ${EGIT_REPO_URI} refs/tags/v${PN}
-}
-
 function src_install() {
 	dobin pigmap
-	dodoc README COPYING
+	dodoc README
 	insinto /usr/share/${PN}
 	doins template.html blockdescriptor.list blocktextures.list style.css
 	insinto /usr/share/${PN}/textures/entity
