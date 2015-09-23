@@ -2,4 +2,8 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 <herd>mozilla</herd>
+	<maintainer>
+		<email>hmp@h4emp3.net</email>
+		<name>Paul Goller</name>
+	</maintainer>
 </pkgmetadata>
