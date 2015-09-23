@@ -1,6 +1,6 @@
 # Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
 EAPI=5
 PYTHON_COMPAT=( python3_4 )
@@ -18,7 +18,6 @@ IUSE=""
 DEPEND="app-admin/pass"
 RDEPEND="${DEPEND}"
 
-
 EGIT_REPO_URI="https://code.workwork.net/hmp/${PN}.git"
 
 if [ "${PV}" = '9999' ]; then
@@ -26,7 +25,6 @@ if [ "${PV}" = '9999' ]; then
 else
 	EGIT_COMMIT="${PV}"
 fi
-
 
 python_install() {
 	distutils-r1_python_install
