@@ -1,1 +1,0 @@
-firefox-bin-40.0.3.ebuild

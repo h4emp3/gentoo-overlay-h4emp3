@@ -21,6 +21,7 @@ MOZ_PN="${PN/-bin}"
 MOZ_P="${MOZ_PN}-${MOZ_PV}"
 
 MOZ_HTTP_URI="http://archive.mozilla.org/pub/mozilla.org/${MOZ_PN}/releases"
+MOZ_AURORA_RELEASE="2015-09-23-00-40-24"
 
 inherit eutils multilib pax-utils fdo-mime gnome2-utils mozlinguas nsplugins
 
@@ -31,8 +32,8 @@ if [[ ${PV} =~ alpha ]]; then
 	PN_FULL="${PN}-aurora"
 	MOZ_PN_FULL="${MOZ_PN}-aurora"
 	SRC_URI="${SRC_URI}
-		amd64? ( ${MOZ_HTTP_URI%/*}/nightly/latest-mozilla-aurora/${MOZ_P}.en-US.linux-x86_64.tar.bz2 -> ${PN}_x86_64-${PV}.tar.bz2 )
-		x86? ( ${MOZ_HTTP_URI%/*}/nightly/latest-mozilla-aurora/${MOZ_P}.en-US.linux-i686.tar.bz2 -> ${PN}_i686-${PV}.tar.bz2 )"
+		amd64? ( ${MOZ_HTTP_URI%/*}/nightly/${MOZ_AURORA_RELEASE}-mozilla-aurora/${MOZ_P}.en-US.linux-x86_64.tar.bz2 -> ${PN}_x86_64-${PV}.tar.bz2 )
+		x86? ( ${MOZ_HTTP_URI%/*}/nightly/${MOZ_AURORA_RELEASE}-mozilla-aurora/${MOZ_P}.en-US.linux-i686.tar.bz2 -> ${PN}_i686-${PV}.tar.bz2 )"
 else
 	if [[ ${PV} =~ beta ]]; then
 		PN_FULL="${PN}-beta"
