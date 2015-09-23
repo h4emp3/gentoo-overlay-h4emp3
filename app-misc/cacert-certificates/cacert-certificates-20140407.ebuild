@@ -1,15 +1,16 @@
-# Copyright 1999-2014 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $
+# $Id$
 
 EAPI="4"
 
 DESCRIPTION="CACert Root Certificates"
 HOMEPAGE="http://www.cacert.org/index.php?id=3"
 
-LICENSE="RDL COD14 p20100710"
+LICENSE="RDL-COD14-p20100710"
 SLOT="0"
-KEYWORDS="*"
+KEYWORDS="alpha amd64 -amd64-fbsd arm arm64 hppa ia64 m68k -mips nios2 ppc ppc64
+		  riscv s390 sh sparc -sparc-fbsd x86 -x86-fbsd"
 IUSE=""
 
 DEPEND="app-misc/ca-certificates[-cacert]"
