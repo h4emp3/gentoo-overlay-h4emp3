@@ -1,48 +1,41 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2015 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Id$
 
-EAPI="4"
-SUPPORT_PYTHON_ABIS="1"
-RESTRICT_PYTHON_ABIS="3.*"
-PYTHON_DEPEND="2"
-PYTHON_USE_WITH="sqlite"
-DISTUTILS_SRC_TEST="setup.py"
+EAPI="5"
+PYTHON_COMPAT=( python2_7 )
 
-inherit distutils
+inherit git-r3 distutils-r1
 
-DESCRIPTION="A CardDAV based address book tool"
+DESCRIPTION="Simple to use CardDAV CLI client with mutt query syntax support"
 HOMEPAGE="http://lostpackets.de/pycarddav/"
-SRC_URI="https://lostpackets.de/pycarddav/downloads/pyCardDAV-${PV}.tar.gz"
+EGIT_REPO_URI="https://github.com/geier/pycarddav"
+EGIT_COMMIT="v${PV}"
 
 LICENSE="MIT"
-KEYWORDS="~x86 ~amd64"
 SLOT="0"
+KEYWORDS="~x86 ~amd64"
 IUSE=""
 
-DEPEND="dev-python/lxml
-    dev-python/requests
-    dev-python/vobject
-	dev-python/urwid
-	dev-python/pyxdg"
-RDEPEND="${DEPEND}"
+PYTHON_REQ_USE="sqlite(+)"
+RDEPEND="dev-python/lxml[${PYTHON_USEDEP}]
+	dev-python/requests[${PYTHON_USEDEP}]
+	dev-python/vobject[${PYTHON_USEDEP}]
+	dev-python/urwid[${PYTHON_USEDEP}]
+	dev-python/pyxdg[${PYTHON_USEDEP}]"
+DEPEND="dev-python/setuptools[${PYTHON_USEDEP}]
+	${RDEPEND}"
 
-DOCS="pycard.conf.sample README.rst CHANGELOG NEWS"
-
-src_unpack() {
-    unpack ${A}
-    mv "${WORKDIR}/pyCardDAV-${PV}" "${WORKDIR}/${P}" || die
-    cd "${WORKDIR}"
-}
-
-src_install() {
-	distutils_src_install
-}
+DOCS="CHANGELOG
+	CONTRIBUTING.txt
+	CONTRIBUTORS.txt
+	NEWS.txt
+	README.rst
+	pycard.conf.sample"
 
 pkg_postinst() {
-    ewarn "Copy and edit the supplied pycard.conf.sample file"
-    ewarn "(default location is ~/.pycard/pycard.conf)."
-    ewarn "Beware that only you can access this file,"
-    ewarn "if you have untrusted users on your machine,"
-    ewarn "since the password is stored in cleartext."
+	ewarn "Copy and edit the supplied pycard.conf.sample file (default"
+	ewarn "location is ~/.config/pycard/pycard.conf). If you don't want to"
+	ewarn "store the password inclear text in the config file, pyCardDAV will"
+	ewarn "ask for it while syncing."
 }
