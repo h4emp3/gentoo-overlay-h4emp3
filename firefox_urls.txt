@@ -1,0 +1,13 @@
+
+latest stable:
+    bin: https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/latest/linux-x86_64/en-US/
+    source: https://ftp.mozilla.org/pub/firefox/releases/latest/source/
+
+latest beta:
+    bin: https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/latest-beta/linux-x86_64/en-US/
+    source: https://ftp.mozilla.org/pub/firefox/releases/latest-beta/source/
+
+latest alpha/aurora:
+    bin: https://ftp.mozilla.org/pub/mozilla.org/firefox/nightly/latest-mozilla-aurora/
+    source: NOT AVAILABLE
+        https://developer.mozilla.org/ko/docs/Download_Mozilla_Source_Code#Nightlies
