@@ -4,12 +4,12 @@
 
 EAPI=5
 
-inherit git-r3
+inherit git-r3 readme.gentoo
 
 DESCRIPTION="Fish shell like syntax highlighting for zsh (patched)"
 HOMEPAGE="https://github.com/zsh-users/zsh-syntax-highlighting"
 EGIT_REPO_URI="https://github.com/h4emp3/${PN}"
-EGIT_COMMIT="${PV}"
+EGIT_COMMIT="${PVR}"
 
 LICENSE="HPND"
 SLOT="0"
