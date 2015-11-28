@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer>
+		<email>martin@mvath.de</email>
+		<name>Martin Väth</name>
+	</maintainer>
+	<maintainer>
+		<email>hmp@h4emp3.net</email>
+		<name>Paul Goller</name>
+		<description>custom patches</description>
+	</maintainer>
+	<upstream>
+		<bugs-to>https://github.com/zsh-users/zsh-syntax-highlighting/issues</bugs-to>
+		<remote-id type="github">zsh-users/zsh-syntax-highlighting</remote-id>
+	</upstream>
+	<upstream>
+		<bugs-to>https://github.com/h4emp3/zsh-syntax-highlighting/issues</bugs-to>
+		<remote-id type="github">h4emp3/zsh-syntax-highlighting</remote-id>
+	</upstream>
+</pkgmetadata>
