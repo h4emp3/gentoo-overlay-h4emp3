@@ -43,7 +43,7 @@ RDEPEND="${COMMON_DEPEND}
 "
 
 NIX_BUILD_GROUP="nixbld"
-NIX_USERS_GROUP="nix-users"
+NIX_USERS_GROUP="nix"
 NIX_BUILD_USERS="${NIX_BUILD_USERS-1}"
 
 src_configure() {
@@ -115,9 +115,17 @@ pkg_postinst() {
 		enewgroup "${NIX_BUILD_GROUP}"
 		enewgroup "${NIX_USERS_GROUP}"
 		for i in $(seq 1 "${NIX_BUILD_USERS}"); do
-			enewuser "${NIX_BUILD_GROUP}-${i}" \
-				-1 '' '' "${NIX_BUILD_GROUP}" "${NIX_BUILD_GROUP}"
+			enewuser "${NIX_BUILD_GROUP}-${i}" -1 '' '' "${NIX_BUILD_GROUP}"
+			usermod -aG "${NIX_BUILD_GROUP}" "${NIX_BUILD_GROUP}-${i}"
 		done
+
+	fi
+
+	# fix nix store permissions
+	chgrp "${NIX_USERS_GROUP}" '/nix/store'
+	chmod 1770 '/nix/store'
+
+	if use 'multiuser'; then
 
 		# fix profiles folder permissions
 		chgrp "${NIX_USERS_GROUP}" '/var/lib/nix/profiles'
@@ -128,14 +136,27 @@ pkg_postinst() {
 		chgrp "${NIX_USERS_GROUP}" '/var/lib/nix/profiles/per-user'
 		chmod 1770 '/var/lib/nix/profiles/per-user'
 
-		elog "To be able to use the multiuser Nix env your user has to be in "
-		elog "the correct group: ${NIX_USERS_GROUP}"
+		elog "
+To be able to use the multiuser Nix env your user has to be in the nix group:
+> usermod -aG '${NIX_USERS_GROUP}' <username>
+
+The multiuser installation proxies every command through the nix-daemon,
+so you have to start it:
+> /etc/init.d/nix-daemon start
+
+Then, start a new shell to source /etc/profile.d/nix.sh, which will create
+a default config in your home directory.
+
+To actually create the initial content behind those symlinks, you have to
+update your channels:
+> nix-channel --update
+
+And finally install something:
+> nix-env -i firefox
+
+"
 
 	fi
-
-	# fix nix store permissions
-	chgrp "${NIX_USERS_GROUP}" '/nix/store'
-	chmod 1770 '/nix/store'
 
 }
 
@@ -146,22 +167,16 @@ pkg_postrm() {
 		|| egetent 'group' "${NIX_BUILD_GROUP}" &>/dev/null
 	then
 
-		elog "During install this ebuild created a group and one or more users."
-		elog "If you don't need them anymore, you can delete them with:"
+		ewarn "
+During installation, this ebuild created some users/groups.
+If you don't need them anymore, you can delete everything with:
+> grep -oE '^${NIX_BUILD_GROUP}-[0-9]+' /etc/passwd | xargs -n1 userdel -r
+> getent group '${NIX_BUILD_GROUP}' &>/dev/null && groupdel '${NIX_BUILD_GROUP}'
 
-		local nix_user
-		for nix_user in $(grep -oE "^${NIX_BUILD_GROUP}-[0-9]+" '/etc/passwd')
-		do
-			elog "userdel ${nix_user%%:*}"
-		done
-
-		if [ -n "$(egetent 'group' "${NIX_BUILD_GROUP}")" ]; then
-			elog "groupdel ${NIX_BUILD_GROUP}"
-		fi
-
-		if [ -n "$(egetent 'group' "${NIX_USERS_GROUP}")" ]; then
-			elog "groupdel ${NIX_USERS_GROUP}"
-		fi
+The main group can be removed too, but be careful, most of the shared files
+belong to this group!
+> getent group '${NIX_USERS_GROUP}' &>/dev/null && groupdel '${NIX_USERS_GROUP}'
+"
 
 	fi
 
