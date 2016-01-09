@@ -1,0 +1,41 @@
+#!/sbin/openrc-run
+
+description="Runs operations on Nix store on behalf of unprivileged users."
+
+BIN='/usr/bin/nix-daemon'
+PID='/run/nix-daemon.pid'
+LOG='/var/log/nix-daemon.log'
+SOCK='/var/lib/nix/daemon-socket/socket'
+
+depend() {
+	after localmount netmount
+}
+
+start() {
+    ebegin "Starting nix-daemon"
+	start-stop-daemon \
+		--start \
+		--pidfile "${PID}" \
+		--progress \
+		--background \
+		--make-pidfile \
+		--stdout "${LOG}" \
+		--stderr "${LOG}" \
+		--wait 10 \
+		"${BIN}" \
+		&& chgrp "${nix_users_group-nix-users}" "${SOCK}" \
+		&& chmod 'ug=rwx,o=' "${SOCK}"
+    eend $? "failed to start nix-daemon"
+}
+
+stop() {
+    ebegin "Stopping nix-daemon"
+	start-stop-daemon \
+		--stop \
+		--pidfile "${PID}" \
+		--progress \
+		"${BIN}"
+    eend $? "failed to stop nix-daemon"
+}
+
+# vim: ft=sh
