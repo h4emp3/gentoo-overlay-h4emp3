@@ -1,0 +1,1 @@
+firefox-bin-slotted-43.0.4.ebuild

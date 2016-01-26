@@ -13,11 +13,14 @@ gu-IN he hi-IN hr hu hy-AM id is it ja kk kn ko lt lv mai mk ml mr nb-NO
 nl nn-NO or pa-IN pl pt-BR pt-PT rm ro ru si sk sl son sq sr sv-SE ta
 te tr uk vi zh-CN zh-TW)
 
+# remove the slotted suffix
+REAL_PN="${PN/-slotted}"
+
 # Convert the ebuild version to the upstream mozilla version, used by mozlinguas
 MOZ_PV="${PV/_alpha/a}" # Handle alpha for SRC_URI
 MOZ_PV="${MOZ_PV/_beta/b}" # Handle beta for SRC_URI
 MOZ_PV="${MOZ_PV/_rc/rc}" # Handle rc for SRC_URI
-MOZ_PN="${PN/-bin}"
+MOZ_PN="${REAL_PN/-bin}"
 MOZ_P="${MOZ_PN}-${MOZ_PV}"
 
 MOZ_HTTP_URI="http://archive.mozilla.org/pub/mozilla.org/${MOZ_PN}/releases"
@@ -28,36 +31,39 @@ inherit eutils multilib pax-utils fdo-mime gnome2-utils mozlinguas nsplugins
 DESCRIPTION="Firefox Web Browser"
 
 if [[ ${PV} =~ alpha ]]; then
+	KEYWORDS=""
 	CHANNEL="aurora"
-	PN_FULL="${PN}-aurora"
+	PN_FULL="${REAL_PN}-aurora"
 	MOZ_PN_FULL="${MOZ_PN}-aurora"
 	SRC_URI="${SRC_URI}
-		amd64? ( ${MOZ_HTTP_URI%/*}/nightly/${MOZ_AURORA_RELEASE}-mozilla-aurora/${MOZ_P}.en-US.linux-x86_64.tar.bz2 -> ${PN}_x86_64-${PV}.tar.bz2 )
-		x86? ( ${MOZ_HTTP_URI%/*}/nightly/${MOZ_AURORA_RELEASE}-mozilla-aurora/${MOZ_P}.en-US.linux-i686.tar.bz2 -> ${PN}_i686-${PV}.tar.bz2 )"
+		amd64? ( ${MOZ_HTTP_URI%/*}/nightly/${MOZ_AURORA_RELEASE}-mozilla-aurora/${MOZ_P}.en-US.linux-x86_64.tar.bz2 -> ${REAL_PN}_x86_64-${PV}.tar.bz2 )
+		x86? ( ${MOZ_HTTP_URI%/*}/nightly/${MOZ_AURORA_RELEASE}-mozilla-aurora/${MOZ_P}.en-US.linux-i686.tar.bz2 -> ${REAL_PN}_i686-${PV}.tar.bz2 )"
 else
 	if [[ ${PV} =~ beta ]]; then
-		PN_FULL="${PN}-beta"
+		KEYWORDS="-* ~amd64 ~x86"
+		PN_FULL="${REAL_PN}-beta"
 		MOZ_PN_FULL="${MOZ_PN}-beta"
 		CHANNEL="beta"
 	else
-		PN_FULL="${PN}"
+		KEYWORDS="-* amd64 x86"
+		PN_FULL="${REAL_PN}"
 		MOZ_PN_FULL="${MOZ_PN}"
 		CHANNEL="stable"
 	fi
 	SRC_URI="${SRC_URI}
-		amd64? ( ${MOZ_HTTP_URI}/${MOZ_PV}/linux-x86_64/en-US/${MOZ_P}.tar.bz2 -> ${PN}_x86_64-${PV}.tar.bz2 )
-		x86? ( ${MOZ_HTTP_URI}/${MOZ_PV}/linux-i686/en-US/${MOZ_P}.tar.bz2 -> ${PN}_i686-${PV}.tar.bz2 )"
+		amd64? ( ${MOZ_HTTP_URI}/${MOZ_PV}/linux-x86_64/en-US/${MOZ_P}.tar.bz2 -> ${REAL_PN}_x86_64-${PV}.tar.bz2 )
+		x86? ( ${MOZ_HTTP_URI}/${MOZ_PV}/linux-i686/en-US/${MOZ_P}.tar.bz2 -> ${REAL_PN}_i686-${PV}.tar.bz2 )"
 fi
 
 HOMEPAGE="http://www.mozilla.com/firefox"
 RESTRICT="strip mirror"
 
-KEYWORDS="-* ~amd64 ~x86"
 SLOT="${CHANNEL}"
 LICENSE="MPL-2.0 GPL-2 LGPL-2.1"
 IUSE="selinux startup-notification"
 
-DEPEND="app-arch/unzip"
+DEPEND="!www-client/firefox-bin
+	app-arch/unzip"
 RDEPEND="dev-libs/atk
 	>=sys-apps/dbus-0.60
 	>=dev-libs/dbus-glib-0.72
@@ -83,7 +89,7 @@ RDEPEND="dev-libs/atk
 QA_PREBUILT="
 	opt/${MOZ_PN_FULL}/*.so
 	opt/${MOZ_PN_FULL}/${MOZ_PN}
-	opt/${MOZ_PN_FULL}/${PN}
+	opt/${MOZ_PN_FULL}/${REAL_PN}
 	opt/${MOZ_PN_FULL}/crashreporter
 	opt/${MOZ_PN_FULL}/webapprt-stub
 	opt/${MOZ_PN_FULL}/plugin-container
@@ -146,7 +152,7 @@ src_install() {
 	if [[ -n ${LANG} && ${LANG} != "en" ]]; then
 		elog "Setting default locale to ${LANG}"
 		echo "pref(\"general.useragent.locale\", \"${LANG}\");" \
-			>> "${ED}${MOZILLA_FIVE_HOME}"/defaults/pref/${PN}-prefs.js || \
+			>> "${ED}${MOZILLA_FIVE_HOME}"/defaults/pref/${REAL_PN}-prefs.js || \
 			die "sed failed to change locale"
 	fi
 
