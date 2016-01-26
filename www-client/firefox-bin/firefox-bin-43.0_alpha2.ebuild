@@ -1,1 +1,0 @@
-firefox-bin-41.0.ebuild
