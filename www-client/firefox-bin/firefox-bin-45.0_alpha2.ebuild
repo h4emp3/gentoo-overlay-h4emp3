@@ -1,1 +1,1 @@
-/mnt/coding/overlay-h4emp3/www-client/firefox-bin/firefox-bin-43.0.4.ebuild
+firefox-bin-43.0.4.ebuild
