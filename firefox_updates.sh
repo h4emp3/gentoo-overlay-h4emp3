@@ -49,7 +49,7 @@ local -r portage_path="$(cd ${${(%):-%x}%/*} && pwd)"
 local -ra dependencies=(wget grep sort tail git repoman rm ln)
 
 # general shell helpers
-# function _ () {  cli logger {{{
+# function _ {  cli logger {{{
 
 local -rA log_levels=(
     debug 0
@@ -84,14 +84,14 @@ function {  # fill array 'colors' with color escape sequences {{{
 
 }  # }}}
 
-function _ () {
+function _ {
 
     local level="$1"
     local fstr="$2"
 
     shift 2
 
-    local color
+    local color=
 
     # replace %q with colored quotes
     fstr="${fstr//%q/${colors[black]}${colors[bold]}\'${colors[reset]}%s${colors[black]}${colors[bold]}\'}"
@@ -117,7 +117,7 @@ function _ () {
     print -f "${fstr}${colors[reset]}" -- $@ >&2
 
 }  # }}}
-function require_prog () {  # returns 1 and prints error if $1 is not a valid executable {{{
+function require_prog {  # returns 1 and prints error if $1 is not a valid executable {{{
 
     local prog="$1"
 
@@ -127,9 +127,9 @@ function require_prog () {  # returns 1 and prints error if $1 is not a valid ex
     fi
 
 }  # }}}
-function require_progs () {  # returns 1 if any of $@ is not a valid executable {{{
+function require_progs {  # returns 1 if any of $@ is not a valid executable {{{
 
-    local prog
+    local prog=
 
     local satisfied='true'
 
@@ -144,9 +144,9 @@ function require_progs () {  # returns 1 if any of $@ is not a valid executable 
     fi
 
 }  # }}}
-function contains () {  # returns 1 if $1 is not in ${@:2} {{{
+function contains {  # returns 1 if $1 is not in ${@:2} {{{
 
-    local elem
+    local elem=
 
     for elem in "${@:2}"; do
         if [ "$elem" = "$1" ]; then
@@ -157,14 +157,14 @@ function contains () {  # returns 1 if $1 is not in ${@:2} {{{
     return 1
 
 }  # }}}
-function fetch_url () {  # downloads $1 and prints it to stdout {{{
+function fetch_url {  # downloads $1 and prints it to stdout {{{
 
     local url="$1"
 
     wget --quiet --output-document - "$url"
 
 }  # }}}
-function redirect_symlink () {  # changes to target of a symlink {{{
+function redirect_symlink {  # changes to target of a symlink {{{
 
     local link="$1"
     local new_target="$2"
@@ -182,7 +182,7 @@ function redirect_symlink () {  # changes to target of a symlink {{{
 }  # }}}
 
 # general script helpers
-function run () {  # {{{
+function run {  # {{{
 
     _ 'debug' "$(
         print -- "run \033[30;1m'\033[0m";
@@ -193,14 +193,14 @@ function run () {  # {{{
     $@
 
 }  # }}}
-function _git () {  # run git in portage_path {{{
+function _git {  # run git in portage_path {{{
 
     pushd "$portage_path" >/dev/null
         _ 'debug' "$(run git $@)\n"
     popd >/dev/null
 
 }  # }}}
-function version__to_ebuild () {  # converts intermediate version format to ebuild format {{{
+function version__to_ebuild {  # converts intermediate version format to ebuild format {{{
 
     local version="$1"
 
@@ -212,7 +212,7 @@ function version__to_ebuild () {  # converts intermediate version format to ebui
 }  # }}}
 
 # helpers to get archive information (same format as ebuild)
-function archive_file_links () {  # API 'client' {{{
+function archive_file_links {  # API 'client' {{{
 
     local channel="$1"
     local arch="$2"
@@ -232,14 +232,14 @@ function archive_file_links () {  # API 'client' {{{
     print -- "$location"
 
 }  # }}}
-function archive_source_file_links () {  # html parser, source only {{{
+function archive_source_file_links {  # html parser, source only {{{
 
     local url="$1"
 
-    local line
-    local oldifs
-    local schema
-    local domain
+    local line=
+    local oldifs=
+    local schema=
+    local domain=
 
     schema="${url%%://*}"
     domain="${url/$schema:\/\/}"
@@ -264,11 +264,11 @@ function archive_source_file_links () {  # html parser, source only {{{
     done
 
 }  # }}}
-function archive_get_version () {  # returns version part of given file url {{{
+function archive_get_version {  # returns version part of given file url {{{
 
     local url="$1"
 
-    local version
+    local version=
 
     version="${url#*/firefox-}"
     version="${version/%\.[a-z]*}"
@@ -276,7 +276,7 @@ function archive_get_version () {  # returns version part of given file url {{{
     print -n -- "$version"
 
 }  # }}}
-function archive_list () {  # {{{
+function archive_list {  # {{{
 
     local target="$1"
     local channel="$2"
@@ -326,7 +326,7 @@ function archive_list () {  # {{{
 }  # }}}
 
 # dispatch identifiers channel, target and arch
-function archive_dispatch_arch () {  # calls 'archive_list' for arch being either $3 or every value in $archs {{{
+function archive_dispatch_arch {  # calls 'archive_list' for arch being either $3 or every value in $archs {{{
 
     local target="$1"
     local channel="$2"
@@ -344,7 +344,7 @@ function archive_dispatch_arch () {  # calls 'archive_list' for arch being eithe
     fi
 
 }  # }}}
-function archive_dispatch_channel () {  # calls archive_dispatch_arch for channel being either $2 or every value in $targets {{{
+function archive_dispatch_channel {  # calls archive_dispatch_arch for channel being either $2 or every value in $targets {{{
 
     local target="$1"
     local channel="${2-all}"
@@ -362,7 +362,7 @@ function archive_dispatch_channel () {  # calls archive_dispatch_arch for channe
     fi
 
 }  # }}}
-function archive_dispatch_target () {  # calls archive_dispatch_channel for target being either $1 or every value in $channels {{{
+function archive_dispatch_target {  # calls archive_dispatch_channel for target being either $1 or every value in $channels {{{
 
     local target="${1-all}"
     local channel="${2-all}"
@@ -382,7 +382,7 @@ function archive_dispatch_target () {  # calls archive_dispatch_channel for targ
 }  #}}}
 
 # helpers to get ebuild information (same format as archive)
-function portage_get_versions () {  # {{{
+function portage_get_versions {  # {{{
 
     local file="$1"
 
@@ -391,7 +391,7 @@ function portage_get_versions () {  # {{{
     version="${version/#[a-z-]*-}"
 
     local next="${version/_beta/b}"
-    local channel
+    local channel=
     if ! [ "$next" = "$version" ]; then
         version="$next"
         channel='beta'
@@ -417,18 +417,18 @@ function portage_get_versions () {  # {{{
         return 0
     fi
 
-    local arch
+    local arch=
     for arch in "${keywords[@]}"; do
         print -f '%s : %s : %s\n' -- "$channel" "$arch" "$version"
     done
 
 }  # }}}
-function portage_find_ebuilds () {  # {{{
+function portage_find_ebuilds {  # {{{
 
     local target="$1"
 
     local package_path="${portage_path}/www-client/firefox"
-    local ebuild
+    local ebuild=
 
     if [ "$target" = 'binary' ]; then
         package_path="${package_path}-bin"
@@ -446,7 +446,7 @@ function portage_find_ebuilds () {  # {{{
     done
 
 }  # }}}
-function portage_list_ebuilds () {  # {{{
+function portage_list_ebuilds {  # {{{
 
     local target="${1-all}"
 
@@ -464,7 +464,7 @@ function portage_list_ebuilds () {  # {{{
 }  # }}}
 
 # functions for comparing archive with ebuilds
-function find_updates () {  # {{{
+function find_updates {  # {{{
 
     local target="${1-all}"
     local channel="${2-all}"
@@ -499,7 +499,7 @@ function find_updates () {  # {{{
 
     local -a known_ebuilds
 
-    local key
+    local key=
     for key in ${(@ko)ebuilds}; do
 
         local ebuild="${ebuilds[$key]##* : }"
@@ -524,14 +524,14 @@ function find_updates () {  # {{{
         _ 'info' "found update for %q: \033[30;1m'\033[31;1m%s\033[30;1m' -> \033[30;1m'\033[32;1m%s\033[30;1m'\n" \
             "${key//_/:}" "$ebuild_version" "$archive_version"
 
-        #print -f '%s : %s : %s : %s : %s\n' -- "${key//_/ : }" "$ebuild_version" "$ebuild" "$archive_version" "$url"
+        print -f '%s : %s : %s : %s : %s\n' -- "${key//_/ : }" "$ebuild_version" "$ebuild" "$archive_version" "$url"
 
     done
 
 }  # }}}
 
 # actions
-function cmd__list-archive () {  # prints latest releases on mozilla archive mirror {{{
+function cmd__list-archive {  # prints latest releases on mozilla archive mirror {{{
 
     local target="${1-all}"
     local channel="${2-all}"
@@ -545,15 +545,15 @@ function cmd__list-archive () {  # prints latest releases on mozilla archive mir
     done | uniq
 
 }  # }}}
-function cmd__list-ebuilds () {  # lists ebuilds in $portage_path {{{
+function cmd__list-ebuilds {  # lists ebuilds in $portage_path {{{
 
     local target="${1-all}"
 
-    local ebuild_target
-    local ebuild
-    local arch
-    local channel
-    local version
+    local ebuild_target=
+    local ebuild=
+    local arch=
+    local channel=
+    local version=
 
     portage_list_ebuilds "$target" \
         | while IFS=' : ' read -d $'\n' ebuild_target ebuild
@@ -571,12 +571,12 @@ function cmd__list-ebuilds () {  # lists ebuilds in $portage_path {{{
     done
 
 }  # }}}
-function cmd__list-updates () {  # search and list available updates for existing ebuilds {{{
+function cmd__list-updates {  # search and list available updates for existing ebuilds {{{
 
-    find_updates $@
+    find_updates $@ >/dev/null
 
 }  # }}}
-function cmd__update () {  # updates ebuilds automatically {{{
+function cmd__update {  # updates ebuilds automatically {{{
 
     local _target="${1-all}"
     local _channel="${2-all}"
@@ -587,14 +587,14 @@ function cmd__update () {  # updates ebuilds automatically {{{
 
     # find updates {{{
 
-    local update
-    local target
-    local channel
-    local arch
-    local ebuild_version
-    local ebuild
-    local archive_version
-    local url
+    local update=
+    local target=
+    local channel=
+    local arch=
+    local ebuild_version=
+    local ebuild=
+    local archive_version=
+    local url=
 
     find_updates "$_target" "$_channel" "$_arch" | while IFS=$'\n' read update; do
         IFS=' : ' read target channel arch ebuild_version ebuild archive_version url <<<"$update"
@@ -614,29 +614,29 @@ function cmd__update () {  # updates ebuilds automatically {{{
     # }}}
     # do symlinks first to avoid breaking them {{{
 
-    local ebuild
-    local old_version
-    local new_version
-    local new_file
+    local ebuild=
+    local old_version=
+    local new_version=
+    local new_file=
 
     for ebuild in ${(@k)ebuilds_needing_update}; do
-        if ! [ -L "$ebuild" ]; then
-            continue
-        fi
+        [ -L "$ebuild" ] || continue
         old_version="${ebuilds_needing_update[$ebuild]%% : *}"
         new_version="${ebuilds_needing_update[$ebuild]##* : }"
         new_file="${ebuild/${old_version}/${new_version}}"
+        _ 'info' 'move ebuild %q\n' "$ebuild"
         _git mv -v -- "$ebuild" "$new_file"
+        unset "ebuilds_needing_update[${ebuild}]"
     done
 
     # }}}
     # then do real files and fix symlinks on the way {{{
 
-    local ebuild
-    local old_version
-    local new_version
-    local new_file
-    local file
+    local ebuild=
+    local old_version=
+    local new_version=
+    local new_file=
+    local file=
 
     for ebuild in ${(@k)ebuilds_needing_update}; do
         if [ -L "$ebuild" ]; then
@@ -664,8 +664,11 @@ function cmd__update () {  # updates ebuilds automatically {{{
     # run repoman for every path {{{
 
     if [ -n "${paths-}" ]; then
-        for path in ${paths[@]}; do
-            pushd "$path" >/dev/null
+        local _path=
+        for _path in ${paths[@]}; do
+            pushd "$_path" >/dev/null
+                local file=
+                for file in *.ebuild; do run ebuild "$file" digest manifest; done
                 run sudo repoman --ask --digest y --verbose --include-dev --include-exp-profiles y --mode full --pretend
             popd >/dev/null
         done
@@ -676,7 +679,7 @@ function cmd__update () {  # updates ebuilds automatically {{{
 }  # }}}
 
 # autogenerated usage
-function usage () {  # {{{
+function usage {  # {{{
 
     print -- '\nUsage:'
     print -f '  %s -h|--help\n' -- "${(%):-%x}"
@@ -684,7 +687,7 @@ function usage () {  # {{{
     print -f '  %s list-<action> [<target> [<channel> [<arch>]]]\n' -- "${(%):-%x}"
     print -- '\nActions:'
 
-    local line
+    local line=
     grep '^function cmd__' "${(%):-%x}" | while IFS=$'\n' read line; do
         line="${line#*cmd__}"
         local func="${line%% *}"
@@ -709,11 +712,11 @@ function usage () {  # {{{
 }  # }}}
 
 # argument dispatch
-function main () {  # {{{
+function main {  # {{{
 
     local cmd="${1-}"
 
-    local func
+    local func=
 
     if [ "$cmd" = '-h' ] || [ "$cmd" = '--help' ]; then
         usage
@@ -741,6 +744,5 @@ function main () {  # {{{
 
 # check dependencies before calling anything
 require_progs ${dependencies[@]}
-
 # start program
 main $@
