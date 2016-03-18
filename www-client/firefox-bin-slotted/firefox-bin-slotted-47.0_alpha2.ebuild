@@ -1,0 +1,1 @@
+/mnt/coding/overlay-h4emp3/www-client/firefox-bin-slotted/firefox-bin-slotted-45.0.ebuild
