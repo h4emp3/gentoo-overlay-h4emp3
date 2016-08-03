@@ -24,7 +24,7 @@ MOZ_PN="${REAL_PN/-bin}"
 MOZ_P="${MOZ_PN}-${MOZ_PV}"
 
 MOZ_HTTP_URI="http://archive.mozilla.org/pub/mozilla.org/${MOZ_PN}/releases"
-MOZ_AURORA_RELEASE="2016/03/2016-03-17-00-40-16"
+MOZ_AURORA_RELEASE="2016/08/2016-08-02-00-40-03"
 
 inherit eutils multilib pax-utils fdo-mime gnome2-utils mozlinguas nsplugins
 
