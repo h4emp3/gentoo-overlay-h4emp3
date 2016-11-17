@@ -136,6 +136,10 @@ pkg_postinst() {
 		chgrp "${NIX_USERS_GROUP}" '/var/lib/nix/profiles/per-user'
 		chmod 1770 '/var/lib/nix/profiles/per-user'
 
+		# TODO different start command for systemd
+		# TODO update systemd unit files to set correct socket permissions
+		# TODO hints about NIX_BUILD_USERS=5
+
 		elog "
 To be able to use the multiuser Nix env your user has to be in the nix group:
 > usermod -aG '${NIX_USERS_GROUP}' <username>
