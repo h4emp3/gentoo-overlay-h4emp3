@@ -32,7 +32,7 @@ data = dict(
     author=AUTHOR,
     license=LICENSE,
     packages=['mozlz4a'],
-    entry_points={'console_scripts': ['mozlz4a=mozlz4a:__main__']},
+    entry_points={'console_scripts': ['mozlz4a=mozlz4a:main']},
     install_requires=['lz4'],
     classifiers=CLASSIFIERS,
 )

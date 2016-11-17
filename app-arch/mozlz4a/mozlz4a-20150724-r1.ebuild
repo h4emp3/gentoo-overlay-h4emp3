@@ -22,8 +22,8 @@ EGIT_REPO_URI="https://gist.github.com/62ff47bef7f894e92ed5.git"
 EGIT_COMMIT="2483756c55ed34be565aea269f05bd5eeb6b0a33"
 
 src_prepare() {
+	epatch "${FILESDIR}/${PV}-setuptools-entrypoint.patch"
 	mkdir "${WORKDIR}/${P}/mozlz4a"
-	touch "${WORKDIR}/${P}/mozlz4a"
-	mv "${WORKDIR}/${P}/mozlz4a.py" "${WORKDIR}/${P}/mozlz4a/__main__.py"
+	mv "${WORKDIR}/${P}/mozlz4a.py" "${WORKDIR}/${P}/mozlz4a/__init__.py"
 	cp "${FILESDIR}/setup.py" "${WORKDIR}/${P}/"
 }

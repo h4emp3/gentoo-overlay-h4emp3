@@ -1,0 +1,19 @@
+--- mozlz4a.py.orig	2016-11-17 09:26:46.000000000 +0100
++++ mozlz4a.py	2016-11-17 09:27:02.000000000 +0100
+@@ -59,7 +59,7 @@
+     return b"mozLz40\0" + compressed
+ 
+ 
+-if __name__ == "__main__":
++def main():
+     argparser = ArgumentParser(description="MozLz4a compression/decompression utility")
+     argparser.add_argument(
+             "-d", "--decompress", "--uncompress",
+@@ -106,3 +106,7 @@
+         sys.exit(5)
+     finally:
+         out_file.close()
++
++
++if __name__ == "__main__":
++    main()
