@@ -1,0 +1,1 @@
+firefox-bin-slotted-50.1.0.ebuild

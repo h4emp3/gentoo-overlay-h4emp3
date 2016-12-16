@@ -23,7 +23,7 @@ MOZ_P="${MOZ_PN}-${MOZ_PV}"
 
 # mozlinguas eclass requires the URI with '/releases' at the end
 MOZ_HTTP_URI="https://archive.mozilla.org/pub/${MOZ_PN}/releases"
-MOZ_AURORA_RELEASE="2016/10/2016-10-25-00-40-17"
+MOZ_AURORA_RELEASE="2016/12/2016-12-16-10-17-50"
 
 inherit eutils multilib pax-utils fdo-mime gnome2-utils mozlinguas-v2 nsplugins
 
