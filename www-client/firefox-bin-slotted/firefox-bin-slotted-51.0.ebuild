@@ -1,11 +1,11 @@
-# Copyright 1999-2016 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
 EAPI="5"
 
 # Can be updated using scripts/get_langs.sh from mozilla overlay
-MOZ_LANGS=( ach af an ar as ast az be bg bn-BD bn-IN br bs ca cs cy da de
+MOZ_LANGS=( ach af an ar as ast az bg bn-BD bn-IN br bs ca cs cy da de
 el en en-GB en-US en-ZA eo es-AR es-CL es-ES es-MX et eu fa fi fr fy-NL
 ga-IE gd gl gu-IN he hi-IN hr hsb hu hy-AM id is it ja kk km kn ko lt
 lv mai mk ml mr ms nb-NO nl nn-NO or pa-IN pl pt-BR pt-PT rm ro ru si sk sl
@@ -23,7 +23,7 @@ MOZ_P="${MOZ_PN}-${MOZ_PV}"
 
 # mozlinguas eclass requires the URI with '/releases' at the end
 MOZ_HTTP_URI="https://archive.mozilla.org/pub/${MOZ_PN}/releases"
-MOZ_AURORA_RELEASE="2016/12/2016-12-16-10-17-50"
+MOZ_AURORA_RELEASE="2017/01/2017-01-26-08-40-43"
 
 inherit eutils multilib pax-utils fdo-mime gnome2-utils mozlinguas-v2 nsplugins
 
