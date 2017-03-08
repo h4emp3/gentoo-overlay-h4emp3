@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>dev-zero@gentoo.org</email>
+		<name>Tiziano Mueller</name>
+		<description>original creator of the ebuild (in his personal overlay)</description>
+	</maintainer>
+	<maintainer type="person">
+		<email>hmp@h4emp3.net</email>
+		<name>Paul Goller</name>
+		<description>just host and lint the original ebuild</description>
+	</maintainer>
+</pkgmetadata>
