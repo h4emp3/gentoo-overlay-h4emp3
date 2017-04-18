@@ -23,7 +23,7 @@ MOZ_P="${MOZ_PN}-${MOZ_PV}"
 
 # mozlinguas eclass requires the URI with '/releases' at the end
 MOZ_HTTP_URI="https://archive.mozilla.org/pub/${MOZ_PN}/releases"
-MOZ_AURORA_RELEASE="2017/03/2017-03-07-15-08-42"
+MOZ_AURORA_RELEASE="2017/04/2017-04-18-07-47-00"
 
 inherit eutils multilib pax-utils fdo-mime gnome2-utils mozlinguas-v2 nsplugins
 
@@ -58,7 +58,7 @@ RESTRICT="strip mirror"
 
 SLOT="${CHANNEL}"
 LICENSE="MPL-2.0 GPL-2 LGPL-2.1"
-IUSE="selinux startup-notification"
+IUSE="+ffmpeg +pulseaudio selinux startup-notification"
 
 DEPEND="!www-client/firefox-bin
 	app-arch/unzip"
@@ -66,7 +66,6 @@ RDEPEND="dev-libs/atk
 	>=sys-apps/dbus-0.60
 	>=dev-libs/dbus-glib-0.72
 	>=dev-libs/glib-2.26:2
-	>=media-libs/alsa-lib-1.0.16
 	media-libs/fontconfig
 	>=media-libs/freetype-2.4.10
 	>=x11-libs/cairo-1.10[X]
@@ -82,6 +81,9 @@ RDEPEND="dev-libs/atk
 	x11-libs/libXt
 	>=x11-libs/pango-1.22.0
 	virtual/freedesktop-icon-theme
+	pulseaudio? ( || ( media-sound/pulseaudio
+		>=media-sound/apulse-0.1.9 ) )
+	ffmpeg? ( media-video/ffmpeg )
 	selinux? ( sec-policy/selinux-mozilla )
 "
 
@@ -160,8 +162,8 @@ src_install() {
 	cat <<-EOF >"${ED}"usr/bin/${PN_FULL}
 	#!/bin/sh
 	unset LD_PRELOAD
-	LD_LIBRARY_PATH="/opt/${MOZ_PN_FULL}/"
-	GTK_PATH=/usr/lib/gtk-2.0/
+	LD_LIBRARY_PATH="/usr/$(get_libdir)/apulse:/opt/${MOZ_PN_FULL}/" \\
+	GTK_PATH=/usr/lib/gtk-3.0/ \\
 	exec /opt/${MOZ_PN_FULL}/${MOZ_PN} "\$@"
 	EOF
 	fperms 0755 /usr/bin/${PN_FULL}
@@ -190,15 +192,8 @@ pkg_postinst() {
 		einfo "gnome-base/orbit and net-misc/curl emerged."
 		einfo
 	fi
-	einfo "For HTML5 video you need media-video/ffmpeg installed."
-
-	# Drop requirement of curl not built with nss as it's not necessary anymore
-	#if has_version 'net-misc/curl[nss]'; then
-	#	einfo
-	#	einfo "Crashreporter won't be able to send reports"
-	#	einfo "if you have curl emerged with the nss USE-flag"
-	#	einfo
-	#fi
+	use ffmpeg || ewarn "USE=-ffmpeg : HTML5 video will not render without media-video/ffmpeg installed"
+	use pulseaudio || ewarn "USE=-pulseaudio : audio will not play without apulse or pulseaudio installed"
 
 	# Update mimedb for the new .desktop file
 	fdo-mime_desktop_database_update
