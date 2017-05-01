@@ -11,11 +11,14 @@ ga-IE gd gl gu-IN he hi-IN hr hsb hu hy-AM id is it ja kk km kn ko lt
 lv mai mk ml mr ms nb-NO nl nn-NO or pa-IN pl pt-BR pt-PT rm ro ru si sk sl
 son sq sr sv-SE ta te th tr uk uz vi xh zh-CN zh-TW )
 
+# replace channels with bin, this ebuild replaces www-client/firefox-bin
+REAL_PN="${PN/-channels}-bin"
+
 # Convert the ebuild version to the upstream mozilla version, used by mozlinguas
-MOZ_PV="${PV/_beta/b}" # Handle beta for SRC_URI
-MOZ_PV="${MOZ_PV/_esr/esr}" # Handle esr for SRC_URI
+MOZ_PV="${PV/_esr/esr}" # Handle esr for SRC_URI
+MOZ_PV="${MOZ_PV/_beta/b}" # Handle beta for SRC_URI
 MOZ_PV="${MOZ_PV/_rc/rc}" # Handle rc for SRC_URI
-MOZ_PN="${PN/-channels}"
+MOZ_PN="${REAL_PN/-bin}"
 MOZ_P="${MOZ_PN}-${MOZ_PV}"
 
 MOZ_HTTP_URI="http://archive.mozilla.org/pub/mozilla.org/${MOZ_PN}/releases"
@@ -24,8 +27,8 @@ inherit eutils multilib pax-utils fdo-mime gnome2-utils mozlinguas-v2 nsplugins
 
 DESCRIPTION="Firefox Web Browser"
 SRC_URI="${SRC_URI}
-	amd64? ( ${MOZ_HTTP_URI%/}/${MOZ_PV}/linux-x86_64/en-US/${MOZ_P}.tar.bz2 -> ${PN}_x86_64-${PV}.tar.bz2 )
-	x86? ( ${MOZ_HTTP_URI%/}/${MOZ_PV}/linux-i686/en-US/${MOZ_P}.tar.bz2 -> ${PN}_i686-${PV}.tar.bz2 )"
+	amd64? ( ${MOZ_HTTP_URI%/}/${MOZ_PV}/linux-x86_64/en-US/${MOZ_P}.tar.bz2 -> ${REAL_PN}_x86_64-${PV}.tar.bz2 )
+	x86? ( ${MOZ_HTTP_URI%/}/${MOZ_PV}/linux-i686/en-US/${MOZ_P}.tar.bz2 -> ${REAL_PN}_i686-${PV}.tar.bz2 )"
 HOMEPAGE="http://www.mozilla.com/firefox"
 RESTRICT="strip mirror"
 
@@ -33,17 +36,17 @@ KEYWORDS="-* ~amd64 ~x86"
 if [[ ${PV} =~ beta ]]; then
 	KEYWORDS="-* ~amd64 ~x86"
 	SLOT="2/beta"
-	PN_FULL="${PN}-beta"
+	PN_FULL="${REAL_PN}-beta"
 	MOZ_PN_FULL="${MOZ_PN}-beta"
 elif [[ ${PV} =~ esr ]]; then
 	KEYWORDS="-* amd64 x86"
 	SLOT="0/esr"
-	PN_FULL="${PN}-esr"
+	PN_FULL="${REAL_PN}-esr"
 	MOZ_PN_FULL="${MOZ_PN}-esr"
 else
 	KEYWORDS="-* amd64 x86"
 	SLOT="1/stable"
-	PN_FULL="${PN}"
+	PN_FULL="${REAL_PN}"
 	MOZ_PN_FULL="${MOZ_PN}"
 fi
 LICENSE="MPL-2.0 GPL-2 LGPL-2.1"
@@ -79,7 +82,7 @@ RDEPEND="dev-libs/atk
 QA_PREBUILT="
 	opt/${MOZ_PN_FULL}/*.so
 	opt/${MOZ_PN_FULL}/${MOZ_PN}
-	opt/${MOZ_PN_FULL}/${PN}
+	opt/${MOZ_PN_FULL}/${REAL_PN}
 	opt/${MOZ_PN_FULL}/crashreporter
 	opt/${MOZ_PN_FULL}/webapprt-stub
 	opt/${MOZ_PN_FULL}/plugin-container
@@ -142,7 +145,7 @@ src_install() {
 	if [[ -n ${LANG} && ${LANG} != "en" ]]; then
 		elog "Setting default locale to ${LANG}"
 		echo "pref(\"general.useragent.locale\", \"${LANG}\");" \
-			>> "${ED}${MOZILLA_FIVE_HOME}"/defaults/pref/${PN}-prefs.js || \
+			>> "${ED}${MOZILLA_FIVE_HOME}"/defaults/pref/${REAL_PN}-prefs.js || \
 			die "sed failed to change locale"
 	fi
 
