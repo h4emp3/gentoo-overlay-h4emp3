@@ -32,7 +32,6 @@ SRC_URI="${SRC_URI}
 HOMEPAGE="http://www.mozilla.com/firefox"
 RESTRICT="strip mirror"
 
-KEYWORDS="-* ~amd64 ~x86"
 if [[ ${PV} =~ beta ]]; then
 	KEYWORDS="-* ~amd64 ~x86"
 	SLOT="2/beta"
