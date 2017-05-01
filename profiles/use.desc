@@ -1,0 +1,7 @@
+# Copyright 2017 Paul Goller
+# Distributed under the terms of the GNU General Public License v2
+
+# Keep them sorted
+
+cdio - Use libcdio for CD support
+wav - Use GStreamer for wav support
