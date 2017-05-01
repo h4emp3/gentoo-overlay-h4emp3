@@ -15,12 +15,26 @@ son sq sr sv-SE ta te th tr uk uz vi xh zh-CN zh-TW )
 REAL_PN="${PN/-channels}-bin"
 
 # Convert the ebuild version to the upstream mozilla version, used by mozlinguas
-MOZ_PV="${PV/_esr/esr}" # Handle esr for SRC_URI
-MOZ_PV="${MOZ_PV/_beta/b}" # Handle beta for SRC_URI
+MOZ_PV="${PV/_beta/b}" # Handle beta for SRC_URI
 MOZ_PV="${MOZ_PV/_rc/rc}" # Handle rc for SRC_URI
 MOZ_PN="${REAL_PN/-bin}"
-MOZ_P="${MOZ_PN}-${MOZ_PV}"
 
+if [[ ${PV} = '52.1.0' ]]; then
+	CHANNEL="esr"
+	PN_FULL="${REAL_PN}-esr"
+	MOZ_PV="${MOZ_PV}esr"
+	MOZ_PN_FULL="${MOZ_PN}-esr"
+elif [[ ${PV} =~ beta ]]; then
+	CHANNEL="beta"
+	PN_FULL="${REAL_PN}-beta"
+	MOZ_PN_FULL="${MOZ_PN}-beta"
+else
+	CHANNEL="stable"
+	PN_FULL="${REAL_PN}"
+	MOZ_PN_FULL="${MOZ_PN}"
+fi
+
+MOZ_P="${MOZ_PN}-${MOZ_PV}"
 MOZ_HTTP_URI="http://archive.mozilla.org/pub/mozilla.org/${MOZ_PN}/releases"
 
 inherit eutils multilib pax-utils fdo-mime gnome2-utils mozlinguas-v2 nsplugins
@@ -32,26 +46,25 @@ SRC_URI="${SRC_URI}
 HOMEPAGE="http://www.mozilla.com/firefox"
 RESTRICT="strip mirror"
 
-if [[ ${PV} =~ beta ]]; then
-	KEYWORDS="-* ~amd64 ~x86"
-	SLOT="2/beta"
-	PN_FULL="${REAL_PN}-beta"
-	MOZ_PN_FULL="${MOZ_PN}-beta"
-elif [[ ${PV} =~ esr ]]; then
-	KEYWORDS="-* amd64 x86"
-	SLOT="0/esr"
-	PN_FULL="${REAL_PN}-esr"
-	MOZ_PN_FULL="${MOZ_PN}-esr"
-else
-	KEYWORDS="-* amd64 x86"
-	SLOT="1/stable"
-	PN_FULL="${REAL_PN}"
-	MOZ_PN_FULL="${MOZ_PN}"
-fi
+case "$CHANNEL" in
+	esr)
+		KEYWORDS="-* amd64 x86"
+		SLOT="esr"
+		;;
+	stable)
+		KEYWORDS="-* amd64 x86"
+		SLOT="stable"
+		;;
+	beta)
+		KEYWORDS="-* ~amd64 ~x86"
+		SLOT="beta"
+		;;
+esac
 LICENSE="MPL-2.0 GPL-2 LGPL-2.1"
 IUSE="+ffmpeg +pulseaudio selinux startup-notification"
 
 DEPEND="!www-client/firefox-bin
+	!www-client/firefox-bin-slotted
 	app-arch/unzip"
 RDEPEND="dev-libs/atk
 	>=sys-apps/dbus-0.60
