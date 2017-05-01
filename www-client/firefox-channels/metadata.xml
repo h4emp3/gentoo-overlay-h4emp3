@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="project">
+		<email>mozilla@gentoo.org</email>
+		<name>Gentoo Mozilla Team</name>
+		<description>creator/maintainer of original ebuild</description>
+	</maintainer>
+	<maintainer type="person">
+		<email>hmp@h4emp3.net</email>
+		<name>Paul Goller</name>
+		<description>firefox-bin from portage plus channels via slots</description>
+	</maintainer>
+</pkgmetadata>
