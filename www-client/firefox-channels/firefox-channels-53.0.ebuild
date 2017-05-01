@@ -31,14 +31,17 @@ RESTRICT="strip mirror"
 
 KEYWORDS="-* ~amd64 ~x86"
 if [[ ${PV} =~ beta ]]; then
+	KEYWORDS="-* ~amd64 ~x86"
 	SLOT="beta"
 	PN_FULL="${PN}-beta"
 	MOZ_PN_FULL="${MOZ_PN}-beta"
 elif [[ ${PV} =~ esr ]]; then
+	KEYWORDS="-* amd64 x86"
 	SLOT="esr"
 	PN_FULL="${PN}-esr"
 	MOZ_PN_FULL="${MOZ_PN}-esr"
 else
+	KEYWORDS="-* amd64 x86"
 	SLOT="stable"
 	PN_FULL="${PN}"
 	MOZ_PN_FULL="${MOZ_PN}"
