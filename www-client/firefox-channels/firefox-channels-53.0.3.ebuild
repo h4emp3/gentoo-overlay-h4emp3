@@ -19,7 +19,7 @@ MOZ_PV="${PV/_beta/b}" # Handle beta for SRC_URI
 MOZ_PV="${MOZ_PV/_rc/rc}" # Handle rc for SRC_URI
 MOZ_PN="${REAL_PN/-bin}"
 
-if [[ ${PV} = '52.1.0' ]]; then
+if [[ ${PV} = '52.1.2' ]]; then
 	CHANNEL="esr"
 	PN_FULL="${REAL_PN}-esr"
 	MOZ_PV="${MOZ_PV}esr"
