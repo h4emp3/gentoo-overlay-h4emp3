@@ -1,1 +1,0 @@
-firefox-channels-54.0.ebuild
