@@ -1,1 +1,0 @@
-firefox-channels-55.0.3.ebuild
