@@ -13,10 +13,10 @@ SRC_URI="https://github.com/wxWidgets/wxWidgets/releases/download/v${PV}/wxWidge
 KEYWORDS="~amd64"
 IUSE="+X aqua doc debug gstreamer libnotify opengl sdl tiff webkit"
 
-WXSUBVERSION=${PV}-gtk3					# 3.0.2.0-gtk3
-WXVERSION=${WXSUBVERSION%.*}			# 3.0.2
-WXRELEASE=${WXVERSION%.*}-gtk3			# 3.0-gtk3
-WXRELEASE_NODOT=${WXRELEASE//./}		# 30-gtk3
+WXSUBVERSION=${PV}-gtk3					# 3.1.0-gtk3
+WXVERSION=$WXSUBVERSION					# 3.1.0
+WXRELEASE=${WXVERSION%.*}-gtk3			# 3.1-gtk3
+WXRELEASE_NODOT=${WXRELEASE//./}		# 31-gtk3
 
 SLOT="${WXRELEASE}"
 
