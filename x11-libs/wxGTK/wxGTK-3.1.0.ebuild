@@ -61,8 +61,8 @@ S="${WORKDIR}/wxWidgets-${PV}"
 
 src_prepare() {
 	epatch "${FILESDIR}"/${PN}-3.0.0.0-collision.patch
-	epatch "${FILESDIR}"/${P}-webview-fixes.patch
-	epatch "${FILESDIR}"/${P}-gcc6.patch
+	#epatch "${FILESDIR}"/${P}-webview-fixes.patch
+	#epatch "${FILESDIR}"/${P}-gcc6.patch
 	epatch_user
 
 	for f in $(find "${S}" -name configure.in); do
