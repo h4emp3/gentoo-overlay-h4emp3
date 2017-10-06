@@ -2,8 +2,8 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
-# Please report bugs or other requests at code.workwork.net and assign to
-# hmp@h4emp3.net
+# Please report bugs or other requests at
+# https://github.com/h4emp3/gentoo-overlay-h4emp3
 
 # GLEP 23
 # https://wiki.gentoo.org/wiki/GLEP:23
@@ -11,3 +11,6 @@
 ######################################################################
 
 EULA RDL-COD14-p20140731 TIDY-HTML5
+
+GPL-COMPATIBLE BSD-3
+OSI-APPROVED BSD-3
