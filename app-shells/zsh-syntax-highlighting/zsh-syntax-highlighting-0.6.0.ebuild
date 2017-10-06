@@ -1,4 +1,4 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Id$
 
@@ -6,12 +6,12 @@ EAPI=5
 
 inherit git-r3 readme.gentoo
 
-DESCRIPTION="Fish shell like syntax highlighting for zsh (patched)"
+DESCRIPTION="Fish shell like syntax highlighting for zsh"
 HOMEPAGE="https://github.com/zsh-users/zsh-syntax-highlighting"
-EGIT_REPO_URI="https://github.com/h4emp3/${PN}"
+EGIT_REPO_URI="https://github.com/zsh-users/${PN}"
 EGIT_COMMIT="${PVR}"
 
-LICENSE="HPND"
+LICENSE="BSD-3"
 SLOT="0"
 KEYWORDS="~* ~x86 ~amd64"
 IUSE=""
