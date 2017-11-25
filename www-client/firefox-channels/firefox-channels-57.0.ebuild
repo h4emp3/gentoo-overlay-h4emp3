@@ -1,7 +1,7 @@
 # Copyright 1999-2017 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI="5"
+EAPI=6
 
 # Can be updated using scripts/get_langs.sh from mozilla overlay
 # Missing when bumped : be
@@ -18,11 +18,11 @@ REAL_PN="${PN/-channels}-bin"
 MOZ_PV="${PV/_beta/b}" # Handle beta for SRC_URI
 MOZ_PV="${MOZ_PV/_rc/rc}" # Handle rc for SRC_URI
 MOZ_PN="${REAL_PN/-bin}"
-
 if [[ ${PV} = '52.5.0' ]]; then
+	# ESR releases have slightly version numbers
+	MOZ_PV="${MOZ_PV}esr"
 	CHANNEL="esr"
 	PN_FULL="${REAL_PN}-esr"
-	MOZ_PV="${MOZ_PV}esr"
 	MOZ_PN_FULL="${MOZ_PN}-esr"
 elif [[ ${PV} =~ beta ]]; then
 	CHANNEL="beta"
@@ -33,11 +33,11 @@ else
 	PN_FULL="${REAL_PN}"
 	MOZ_PN_FULL="${MOZ_PN}"
 fi
-
 MOZ_P="${MOZ_PN}-${MOZ_PV}"
-MOZ_HTTP_URI="http://archive.mozilla.org/pub/mozilla.org/${MOZ_PN}/releases"
 
-inherit eutils multilib pax-utils fdo-mime gnome2-utils mozlinguas-v2 nsplugins
+MOZ_HTTP_URI="http://archive.mozilla.org/pub/mozilla.org/${MOZ_PN}/releases/"
+
+inherit eutils pax-utils xdg-utils gnome2-utils mozlinguas-v2 nsplugins
 
 DESCRIPTION="Firefox Web Browser"
 SRC_URI="${SRC_URI}
@@ -85,8 +85,8 @@ RDEPEND="dev-libs/atk
 	x11-libs/libXt
 	>=x11-libs/pango-1.22.0
 	virtual/freedesktop-icon-theme
-	pulseaudio? ( || ( media-sound/pulseaudio
-		>=media-sound/apulse-0.1.9 ) )
+	pulseaudio? ( !<media-sound/apulse-0.1.9
+		|| ( media-sound/pulseaudio media-sound/apulse ) )
 	ffmpeg? ( media-video/ffmpeg )
 	selinux? ( sec-policy/selinux-mozilla )
 "
@@ -163,10 +163,11 @@ src_install() {
 
 	# Create /usr/bin/firefox-bin[-(beta|esr)]
 	dodir /usr/bin/
+	local apulselib=$(usex pulseaudio "/usr/$(get_libdir)/apulse:" "")
 	cat <<-EOF >"${ED}"usr/bin/${PN_FULL}
 	#!/bin/sh
 	unset LD_PRELOAD
-	LD_LIBRARY_PATH="/usr/$(get_libdir)/apulse:/opt/${MOZ_PN_FULL}/" \\
+	LD_LIBRARY_PATH="${apulselib}/opt/${MOZ_PN_FULL}/" \\
 	GTK_PATH=/usr/lib/gtk-3.0/ \\
 	exec /opt/${MOZ_PN_FULL}/${MOZ_PN} "\$@"
 	EOF
@@ -177,7 +178,7 @@ src_install() {
 	echo "SEARCH_DIRS_MASK=${MOZILLA_FIVE_HOME}" >> ${T}/10${PN_FULL}
 	doins "${T}"/10${PN_FULL} || die
 
-	# Plugins dir
+	# Plugins dir, still used for flash
 	share_plugins_dir
 
 	# Required in order to use plugins and even run firefox on hardened.
@@ -197,10 +198,10 @@ pkg_postinst() {
 		einfo
 	fi
 	use ffmpeg || ewarn "USE=-ffmpeg : HTML5 video will not render without media-video/ffmpeg installed"
-	use pulseaudio || ewarn "USE=-pulseaudio : audio will not play without apulse or pulseaudio installed"
+	use pulseaudio || ewarn "USE=-pulseaudio : audio will not play without pulseaudio installed"
 
 	# Update mimedb for the new .desktop file
-	fdo-mime_desktop_database_update
+	xdg_desktop_database_update
 	gnome2_icon_cache_update
 }
 
