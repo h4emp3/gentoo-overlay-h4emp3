@@ -1,4 +1,4 @@
-# Copyright 1999-2017 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -18,7 +18,7 @@ REAL_PN="${PN/-channels}-bin"
 MOZ_PV="${PV/_beta/b}" # Handle beta for SRC_URI
 MOZ_PV="${MOZ_PV/_rc/rc}" # Handle rc for SRC_URI
 MOZ_PN="${REAL_PN/-bin}"
-if [[ ${PV} = '52.5.2' ]]; then
+if [[ ${PV} = '52.5.3' ]]; then
 	# ESR releases have slightly version numbers
 	MOZ_PV="${MOZ_PV}esr"
 	CHANNEL="esr"
