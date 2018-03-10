@@ -18,7 +18,7 @@ REAL_PN="${PN/-channels}-bin"
 MOZ_PV="${PV/_beta/b}" # Handle beta for SRC_URI
 MOZ_PV="${MOZ_PV/_rc/rc}" # Handle rc for SRC_URI
 MOZ_PN="${REAL_PN/-bin}"
-if [[ ${PV} = '52.5.3' ]]; then
+if [[ ${PV} = '52.6.0' ]]; then
 	# ESR releases have slightly version numbers
 	MOZ_PV="${MOZ_PV}esr"
 	CHANNEL="esr"
@@ -146,9 +146,8 @@ src_install() {
 	# Fix prefs that make no sense for a system-wide install
 	insinto ${MOZILLA_FIVE_HOME}/defaults/pref/
 	doins "${FILESDIR}"/local-settings.js
-	# Copy preferences file so we can do a simple rename.
-	cp "${FILESDIR}"/all-gentoo-1.js \
-		"${ED}"${MOZILLA_FIVE_HOME}/all-gentoo.js || die
+	insinto ${MOZILLA_FIVE_HOME}
+	newins "${FILESDIR}"/all-gentoo-1.js all-gentoo.js
 
 	# Install language packs
 	mozlinguas_src_install
