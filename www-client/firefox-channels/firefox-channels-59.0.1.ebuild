@@ -116,6 +116,10 @@ src_install() {
 
 	local size sizes icon_path icon name
 	sizes="16 32 48"
+	# since ff59 (esr is obviously older)
+	if ! [ "$CHANNEL" = 'esr' ]; then
+		sizes="$sizes 64 128"
+	fi
 	icon_path="${S}/browser/chrome/icons/default"
 	icon="${PN_FULL}"
 	name="Mozilla Firefox"
@@ -125,9 +129,11 @@ src_install() {
 		insinto "/usr/share/icons/hicolor/${size}x${size}/apps"
 		newins "${icon_path}/default${size}.png" "${icon}.png" || die
 	done
-	# The 128x128 icon has a different name
-	insinto /usr/share/icons/hicolor/128x128/apps
-	newins "${icon_path}/../../../icons/mozicon128.png" "${icon}.png" || die
+	# The 128x128 icon has a different name (not anymore since 59)
+	if [ "$CHANNEL" = 'esr' ]; then
+		insinto /usr/share/icons/hicolor/128x128/apps
+		newins "${icon_path}/../../../icons/mozicon128.png" "${icon}.png" || die
+	fi
 	# Install a 48x48 icon into /usr/share/pixmaps for legacy DEs
 	newicon "${S}"/browser/chrome/icons/default/default48.png ${PN_FULL}.png
 	domenu "${FILESDIR}"/${PN_FULL}.desktop
