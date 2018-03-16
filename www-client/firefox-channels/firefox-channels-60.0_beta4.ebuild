@@ -1,0 +1,1 @@
+firefox-channels-59.0.1.ebuild
