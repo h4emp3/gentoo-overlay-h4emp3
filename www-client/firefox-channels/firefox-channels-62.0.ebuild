@@ -18,7 +18,7 @@ REAL_PN="${PN/-channels}-bin"
 MOZ_PV="${PV/_beta/b}" # Handle beta for SRC_URI
 MOZ_PV="${MOZ_PV/_rc/rc}" # Handle rc for SRC_URI
 MOZ_PN="${REAL_PN/-bin}"
-if [[ ${PV} = '52.9.0' ]]; then
+if [[ ${PV} = '60.2.0' ]]; then
 	# ESR releases have slightly version numbers
 	MOZ_PV="${MOZ_PV}esr"
 	CHANNEL="esr"
