@@ -1,4 +1,4 @@
-# Copyright 1999-2018 Gentoo Foundation
+# Copyright 1999-2018 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
@@ -18,7 +18,7 @@ REAL_PN="${PN/-channels}-bin"
 MOZ_PV="${PV/_beta/b}" # Handle beta for SRC_URI
 MOZ_PV="${MOZ_PV/_rc/rc}" # Handle rc for SRC_URI
 MOZ_PN="${REAL_PN/-bin}"
-if [[ ${PV} = '60.2.0' ]]; then
+if [[ ${PV} = '60.3.0' ]]; then
 	# ESR releases have slightly version numbers
 	MOZ_PV="${MOZ_PV}esr"
 	CHANNEL="esr"
@@ -35,7 +35,7 @@ else
 fi
 MOZ_P="${MOZ_PN}-${MOZ_PV}"
 
-MOZ_HTTP_URI="http://archive.mozilla.org/pub/mozilla.org/${MOZ_PN}/releases/"
+MOZ_HTTP_URI="https://archive.mozilla.org/pub/mozilla.org/${MOZ_PN}/releases/"
 
 inherit eutils pax-utils xdg-utils gnome2-utils mozlinguas-v2 nsplugins
 
@@ -115,11 +115,7 @@ src_install() {
 	declare MOZILLA_FIVE_HOME=/opt/${MOZ_PN_FULL}
 
 	local size sizes icon_path icon name
-	sizes="16 32 48"
-	# since ff59 (esr is obviously older)
-	if ! [ "$CHANNEL" = 'esr' ]; then
-		sizes="$sizes 64 128"
-	fi
+	sizes="16 32 48 128"
 	icon_path="${S}/browser/chrome/icons/default"
 	icon="${PN_FULL}"
 	name="Mozilla Firefox"
@@ -129,11 +125,6 @@ src_install() {
 		insinto "/usr/share/icons/hicolor/${size}x${size}/apps"
 		newins "${icon_path}/default${size}.png" "${icon}.png" || die
 	done
-	# The 128x128 icon has a different name (not anymore since 59)
-	if [ "$CHANNEL" = 'esr' ]; then
-		insinto /usr/share/icons/hicolor/128x128/apps
-		newins "${icon_path}/../../../icons/mozicon128.png" "${icon}.png" || die
-	fi
 	# Install a 48x48 icon into /usr/share/pixmaps for legacy DEs
 	newicon "${S}"/browser/chrome/icons/default/default48.png ${PN_FULL}.png
 	domenu "${FILESDIR}"/${PN_FULL}.desktop
@@ -156,12 +147,12 @@ src_install() {
 	newins "${FILESDIR}"/all-gentoo-1.js all-gentoo.js
 
 	# Install language packs
-	mozlinguas_src_install
+	MOZ_INSTALL_L10N_XPIFILE="1" mozlinguas_src_install
 
-	local LANG=${linguas%% *}
+	local LANG=${LINGUAS%% *}
 	if [[ -n ${LANG} && ${LANG} != "en" ]]; then
 		elog "Setting default locale to ${LANG}"
-		echo "pref(\"general.useragent.locale\", \"${LANG}\");" \
+		echo "pref(\"intl.locale.requested\", \"${LANG}\");" \
 			>> "${ED}${MOZILLA_FIVE_HOME}"/defaults/pref/${REAL_PN}-prefs.js || \
 			die "sed failed to change locale"
 	fi
@@ -173,7 +164,7 @@ src_install() {
 	#!/bin/sh
 	unset LD_PRELOAD
 	LD_LIBRARY_PATH="${apulselib}/opt/${MOZ_PN_FULL}/" \\
-	GTK_PATH=/usr/lib/gtk-3.0/ \\
+	GTK_PATH=/usr/$(get_libdir)/gtk-3.0/ \\
 	exec /opt/${MOZ_PN_FULL}/${MOZ_PN} "\$@"
 	EOF
 	fperms 0755 /usr/bin/${PN_FULL}
