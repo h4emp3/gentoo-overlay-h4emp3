@@ -4,10 +4,14 @@
 EAPI=6
 MOZ_ESR=""
 
+# https://developer.mozilla.org/en-US/docs/Mozilla/Calendar/Calendar_Versions
+# TODO: 6.2.3.1 was released already but is not yet available from ~axs
+MOZ_LIGHTNING_VER="6.2.2.1"
+
 # Can be updated using scripts/get_langs.sh from mozilla overlay
 MOZ_LANGS=(ar ast be bg br ca cs cy da de el en en-GB en-US es-AR
 es-ES et eu fi fr fy-NL ga-IE gd gl he hr hsb hu hy-AM id is it ja ko lt
-nb-NO nl nn-NO pl pt-BR pt-PT rm ro ru si sk sq sr sv-SE tr
+nb-NO nl nn-NO pl pt-BR pt-PT rm ro ru si sk sl sq sr sv-SE tr
 uk vi zh-CN zh-TW )
 
 # Convert the ebuild version to the upstream mozilla version, used by
@@ -30,7 +34,10 @@ DESCRIPTION="Thunderbird Mail Client"
 SRC_URI="${SRC_URI}
 	amd64? ( ${MOZ_HTTP_URI}/${MOZ_PV}/linux-x86_64/en-US/${MOZ_P}.tar.bz2 -> ${PN}_x86_64-${PV}.tar.bz2 )
 	x86? ( ${MOZ_HTTP_URI}/${MOZ_PV}/linux-i686/en-US/${MOZ_P}.tar.bz2 -> ${PN}_i686-${PV}.tar.bz2 )
+	https://dev.gentoo.org/~axs/distfiles/lightning-${MOZ_LIGHTNING_VER}.tar.xz
 "
+# the below only works when upstream releases the xpi with all locales bundled
+#	${MOZ_HTTP_URI/${MOZ_PN}/calendar/lightning}/${MOZ_LIGHTNING_VER}/linux/lightning.xpi -> lightning-${MOZ_LIGHTNING_VER}.xpi
 
 HOMEPAGE="https://www.thunderbird.net/"
 RESTRICT="strip mirror"
@@ -83,13 +90,14 @@ src_unpack() {
 
 	# Unpack language packs
 	mozlinguas_src_unpack
+	#xpi_unpack lightning-${MOZ_LIGHTNING_VER}.xpi
 }
 
 src_install() {
 	declare MOZILLA_FIVE_HOME="/opt/${MOZ_PN}"
 
 	local size sizes icon_path icon name
-	sizes="16 22 24 32 48 64 128"
+	sizes="16 22 24 32 48 128"
 	icon_path="${S}/chrome/icons/default"
 	icon="${PN}-icon"
 	name="Thunderbird"
@@ -111,6 +119,11 @@ src_install() {
 	# Install language packs
 	MOZEXTENSION_TARGET="distribution/bundles" \
 	mozlinguas_src_install
+
+	# Install language packs for calendar
+	mozlinguas_xpistage_langpacks \
+		"${ED%/}/${MOZILLA_FIVE_HOME%/}/distribution/extensions/{e2fda1a4-762b-4020-b5ad-a41df1933103}" \
+		"${WORKDIR}"/lightning-${MOZ_LIGHTNING_VER} lightning calendar
 
 	# Create /usr/bin/thunderbird-bin
 	dodir /usr/bin/
