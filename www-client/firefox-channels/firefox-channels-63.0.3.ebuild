@@ -43,7 +43,7 @@ DESCRIPTION="Firefox Web Browser"
 SRC_URI="${SRC_URI}
 	amd64? ( ${MOZ_HTTP_URI%/}/${MOZ_PV}/linux-x86_64/en-US/${MOZ_P}.tar.bz2 -> ${REAL_PN}_x86_64-${PV}.tar.bz2 )
 	x86? ( ${MOZ_HTTP_URI%/}/${MOZ_PV}/linux-i686/en-US/${MOZ_P}.tar.bz2 -> ${REAL_PN}_i686-${PV}.tar.bz2 )"
-HOMEPAGE="http://www.mozilla.com/firefox"
+HOMEPAGE="https://www.mozilla.org/en-US/firefox/"
 RESTRICT="strip mirror"
 
 case "$CHANNEL" in
@@ -139,6 +139,10 @@ src_install() {
 	# Install firefox in /opt
 	dodir ${MOZILLA_FIVE_HOME%/*}
 	mv "${S}" "${ED}"${MOZILLA_FIVE_HOME} || die
+
+	# Disable built-in auto-update because we update firefox-bin through package manager
+	insinto ${MOZILLA_FIVE_HOME}/distribution/
+	newins "${FILESDIR}"/disable-auto-update.policy.json policies.json
 
 	# Fix prefs that make no sense for a system-wide install
 	insinto ${MOZILLA_FIVE_HOME}/defaults/pref/
