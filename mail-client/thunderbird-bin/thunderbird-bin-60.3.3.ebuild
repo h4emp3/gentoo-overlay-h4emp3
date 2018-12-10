@@ -5,7 +5,7 @@ EAPI=6
 MOZ_ESR=""
 
 # https://developer.mozilla.org/en-US/docs/Mozilla/Calendar/Calendar_Versions
-# TODO: 6.2.3.1 was released already but is not yet available from ~axs
+# TODO: 6.2.3.3 was released already but is not yet available from ~axs
 MOZ_LIGHTNING_VER="6.2.2.1"
 
 # Can be updated using scripts/get_langs.sh from mozilla overlay
