@@ -100,6 +100,8 @@ QA_PREBUILT="
 	opt/${MOZ_PN_FULL}/plugin-container
 	opt/${MOZ_PN_FULL}/mozilla-xremote-client
 	opt/${MOZ_PN_FULL}/updater
+	opt/${MOZ_PN_FULL}/minidump-analyzer
+	opt/${MOZ_PN_FULL}/pingsender
 "
 
 S="${WORKDIR}/${MOZ_PN}"
