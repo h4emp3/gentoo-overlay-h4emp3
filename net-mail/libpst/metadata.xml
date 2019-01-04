@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>hmp@h4emp3.net</email>
+		<name>Paul Goller</name>
+		<description>creator of up-to-date ebuild</description>
+	</maintainer>
+    <use>
+        <flag name="dii">enable dii support</flag>
+    </use>
+</pkgmetadata>
