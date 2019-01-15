@@ -1,11 +1,12 @@
-# Copyright 1999-2018 Gentoo Authors
+# Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=6
 MOZ_ESR=""
 
 # https://developer.mozilla.org/en-US/docs/Mozilla/Calendar/Calendar_Versions
-# TODO: 6.2.3.3 was released already but is not yet available from ~axs
+# TODO: correct version would be 6.2.4, but there is no patch from ~axs and no
+#		separate xpi release from mozilla...
 MOZ_LIGHTNING_VER="6.2.2.1"
 
 # Can be updated using scripts/get_langs.sh from mozilla overlay
