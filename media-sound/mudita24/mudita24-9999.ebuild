@@ -1,14 +1,14 @@
-# Copyright 1999-2015 Gentoo Foundation
+# Copyright 1999-2019 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
-# $Id$
 
 EAPI=5
 
-inherit subversion cmake-utils
+inherit git-r3 cmake-utils
 
 DESCRIPTION="Control Panel for Ice1712 Audio Cards (fork of mudita24)"
-HOMEPAGE="https://code.google.com/p/mudita24/"
-ESVN_REPO_URI="http://${PN}.googlecode.com/svn/trunk/${PN}"
+HOMEPAGE="https://github.com/NielsMayer/mudita24/"
+EGIT_REPO_URI="https://github.com/NielsMayer/${PN}/"
+EGIT_BRANCH="master"
 
 LICENSE="GPL-2"
 SLOT="0"
