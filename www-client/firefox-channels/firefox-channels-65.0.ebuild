@@ -18,7 +18,7 @@ REAL_PN="${PN/-channels}-bin"
 MOZ_PV="${PV/_beta/b}" # Handle beta for SRC_URI
 MOZ_PV="${MOZ_PV/_rc/rc}" # Handle rc for SRC_URI
 MOZ_PN="${REAL_PN/-bin}"
-if [[ ${PV} = '60.4.0' ]]; then
+if [[ ${PV} = '60.5.0' ]]; then
 	# ESR releases have slightly version numbers
 	MOZ_PV="${MOZ_PV}esr"
 	CHANNEL="esr"
@@ -150,18 +150,12 @@ src_install() {
 	insinto ${MOZILLA_FIVE_HOME}/defaults/pref/
 	doins "${FILESDIR}"/local-settings.js
 	insinto ${MOZILLA_FIVE_HOME}
-	newins "${FILESDIR}"/all-gentoo-1.js all-gentoo.js
+	newins "${FILESDIR}"/all-gentoo-2.js all-gentoo.js
 
 	# Install language packs
-	MOZ_INSTALL_L10N_XPIFILE="1" mozlinguas_src_install
-
-	local LANG=${LINGUAS%% *}
-	if [[ -n ${LANG} && ${LANG} != "en" ]]; then
-		elog "Setting default locale to ${LANG}"
-		echo "pref(\"intl.locale.requested\", \"${LANG}\");" \
-			>> "${ED}${MOZILLA_FIVE_HOME}"/defaults/pref/${REAL_PN}-prefs.js || \
-			die "sed failed to change locale"
-	fi
+	MOZEXTENSION_TARGET="distribution/extensions" \
+		MOZ_INSTALL_L10N_XPIFILE="1" \
+		mozlinguas_src_install
 
 	# Create /usr/bin/firefox-bin[-(beta|esr)]
 	dodir /usr/bin/
