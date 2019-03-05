@@ -22,3 +22,7 @@ src_unpack() {
 	mkdir -v "${S}"
 	mv -v "${S%/*}/usr" "${S}"
 }
+
+src_install() {
+	cp -R "${S}/usr" "${D}/" || die "Install failed!"
+}
