@@ -11,6 +11,8 @@ ga-IE gd gl gu-IN he hi-IN hr hsb hu hy-AM id is it ja kk km kn ko lt
 lv mai mk ml mr ms nb-NO nl nn-NO or pa-IN pl pt-BR pt-PT rm ro ru si sk sl
 son sq sr sv-SE ta te th tr uk uz vi xh zh-CN zh-TW )
 
+MOZ_LANGS=( en-US )  # borked in (/since?) 60.6.2esr / 66.0.4
+
 # replace channels with bin, this ebuild replaces www-client/firefox-bin
 REAL_PN="${PN/-channels}-bin"
 
@@ -18,7 +20,7 @@ REAL_PN="${PN/-channels}-bin"
 MOZ_PV="${PV/_beta/b}" # Handle beta for SRC_URI
 MOZ_PV="${MOZ_PV/_rc/rc}" # Handle rc for SRC_URI
 MOZ_PN="${REAL_PN/-bin}"
-if [[ ${PV} = '60.6.1' ]]; then
+if [[ ${PV} = '60.6.2' ]]; then
 	# ESR releases have slightly version numbers
 	MOZ_PV="${MOZ_PV}esr"
 	CHANNEL="esr"
