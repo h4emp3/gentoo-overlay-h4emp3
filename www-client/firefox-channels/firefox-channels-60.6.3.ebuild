@@ -1,1 +1,0 @@
-firefox-channels-66.0.5.ebuild
