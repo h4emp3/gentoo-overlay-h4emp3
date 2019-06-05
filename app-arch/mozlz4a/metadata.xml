@@ -4,6 +4,7 @@
 	<maintainer type="person">
 		<email>hmp@h4emp3.net</email>
 		<name>Paul Goller</name>
+		<description>ebuild maintainer</description>
 	</maintainer>
 	<upstream>
 		<maintainer status="unknown">
