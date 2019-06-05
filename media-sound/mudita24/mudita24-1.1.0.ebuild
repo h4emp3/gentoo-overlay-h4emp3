@@ -5,10 +5,10 @@ EAPI=5
 
 inherit git-r3 cmake-utils
 
-DESCRIPTION="Control Panel for Ice1712 Audio Cards (fork of mudita24)"
+DESCRIPTION="Control tool for Envy24 (ice1712) based soundcards"
 HOMEPAGE="https://github.com/NielsMayer/mudita24/"
 EGIT_REPO_URI="https://github.com/NielsMayer/${PN}/"
-EGIT_BRANCH="master"
+EGIT_COMMIT="e38b1a39a8ca4f82b74d7b70bf9a3489e37b3588"
 
 LICENSE="GPL-2"
 SLOT="0"
