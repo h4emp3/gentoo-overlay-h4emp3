@@ -1,1 +1,0 @@
-firefox-channels-67.0.2.ebuild
