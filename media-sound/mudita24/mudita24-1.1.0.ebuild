@@ -20,6 +20,12 @@ DEPEND=">=dev-util/cmake-2.6.2
 	>=media-sound/alsa-utils-1.0.0"
 RDEPEND=""
 
+src_prepare() {
+	mv "${WORKDIR}/${P}/README" "${WORKDIR}/${P}/INFO"
+	mv "${WORKDIR}/${P}/${PN}/"* "${WORKDIR}/${P}/"
+	cmake-utils_src_prepare
+}
+
 src_configure() {
 	local mycmakeargs=(
 		$(cmake-utils_use_with debug)
