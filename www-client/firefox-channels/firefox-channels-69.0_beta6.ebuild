@@ -1,0 +1,1 @@
+firefox-channels-68.0.1.ebuild
