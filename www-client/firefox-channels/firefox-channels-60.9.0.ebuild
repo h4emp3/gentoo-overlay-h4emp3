@@ -1,0 +1,1 @@
+firefox-channels-69.0.ebuild
